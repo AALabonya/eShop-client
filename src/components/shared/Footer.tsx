@@ -1,71 +1,114 @@
-import Link from "next/link";
+"use client"
+import React from "react";
 
+// react icons
+import {IoLocationOutline} from "react-icons/io5";
+import {MdOutlineEmail, MdOutlineLocalPhone} from "react-icons/md";
+import {CgFacebook} from "react-icons/cg";
+import {BsInstagram, BsLinkedin, BsTwitter} from "react-icons/bs";
 const Footer = () => {
-  return (
-    <footer className="bg-gray-100">
-      <div className="py-5 lg:py-10 layout_container mx-auto flex flex-col lg:flex-row justify-between gap-4">
-        <div>
-          <span>Logo</span>
-          <p className="max-w-60">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,
-            delectus?
-          </p>
-        </div>
-        <div className="flex-1 flex flex-col md:flex-row gap-3 justify-between">
-          <div>
-            <h3 className="text-lg font-semibold uppercase mb-2">About</h3>
-            <ul className="flex flex-col gap-2 text-slate-700">
-              <li>
-                <Link href="/">About us</Link>
-              </li>
-              <li>
-                <Link href="/">Contact us</Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold uppercase mb-2">
-              Useful Links
-            </h3>
-            <ul className="flex flex-col gap-2 text-slate-700">
-              <li>
-                <Link href="/">Shop</Link>
-              </li>
-              <li>
-                <Link href="/">Cart</Link>
-              </li>
-              <li>
-                <Link href="/">Terms and Conditions</Link>
-              </li>
-              <li>
-                <Link href="/">Privacy and Policy</Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold uppercase mb-2">Follow us</h3>
-            <ul className="flex flex-col gap-2 text-slate-700">
-              <li>
-                <Link href="/">Facebook</Link>
-              </li>
-              <li>
-                <Link href="/">Twitter</Link>
-              </li>
-              <li>
-                <Link href="/">Instagram</Link>
-              </li>
-              <li>
-                <Link href="/">Youtube</Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold uppercase">Subscribe</h3>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
+
+    return (
+        <footer className="bg-white boxShadow rounded-xl w-full p-6 sm:p-9 container mx-auto">
+            <div
+                className="flex justify-between gap-[30px] flex-col sm:flex-row flex-wrap w-full">
+                <div className="w-full sm:w-[20%] ">
+                    <img src="/favicon.ico.png" alt="logo"
+                         className="w-[80px] mb-[20px]"/>
+                    <div className="flex flex-col gap-[10px] text-primary">
+                                            <span><a
+                                                className="text-[0.9rem] flex items-center gap-[8px] cursor-pointer">
+                                                <IoLocationOutline className="text-[1.2rem]"/>
+                                                Dhaka, Bangladesh.
+                                            </a></span>
+                        <span><a
+                            className="text-[0.9rem] flex items-center gap-[8px] hover:text-blue-400 cursor-pointer">
+                                                <MdOutlineEmail className="text-[1.1rem]"/>
+                                               eShop@gmail.com
+                                            </a></span>
+                        <span><a
+                            className="text-[0.9rem] flex items-center gap-[8px] hover:text-blue-400 cursor-pointer">
+                                                <MdOutlineLocalPhone className="text-[1.1rem]"/>
+                                                +88015555555
+                                            </a></span>
+                    </div>
+                </div>
+
+                <div className="">
+                    <h3 className="text-[1.2rem] font-semibold text-text mb-2">Services</h3>
+                    <div className="flex text-black flex-col gap-[10px]">
+                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">
+                         Products</p>
+                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">
+                           Shop</p>
+                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">News</p>
+                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">Blog
+                          </p>
+                      
+                    </div>
+                </div>
+
+
+                <div className="">
+                    <h3 className="text-[1.2rem] font-semibold text-text mb-2">Company</h3>
+                    <div className="flex text-black flex-col gap-[10px]">
+                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">Service</p>
+                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">Features</p>
+                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">Our
+                            Team</p>
+                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">About</p>
+                        
+                    </div>
+                </div>
+
+
+                <div className="">
+                <h3 className="text-[1.2rem] font-semibold text-text mb-2">Join a
+                Newsletter</h3>
+                    
+                <div className="w-full">
+                   
+                    <div className="flex gap-[2px] w-full flex-col text-text relative">
+                        <label className="text-[0.9rem]">Your Email</label>
+                        <input type="email"
+                               className="py-3 px-4 pr-[90px] w-full rounded-md border border-primary outline-none"
+                               placeholder="Email address"/>
+
+                        <button
+                            className="px-4 h-[67%] rounded-r-md bg-[#80b500] text-white absolute top-[24px] right-0">Submit
+                        </button>
+                    </div>
+                </div>
+                </div>
+
+                <div className="w-full">
+               <div className=" flex justify-center">
+                 <div className="flex items-center flex-wrap gap-[10px] text-text">
+                    <a className="text-[1.3rem] p-1.5 cursor-pointer rounded-full text-white bg-[#80b500] transition-all duration-300">
+                        <CgFacebook/>
+                    </a>
+                    <a className="text-[1.2rem] p-1.5 cursor-pointer rounded-full text-white bg-[#80b500] transition-all duration-300">
+                        <BsTwitter/>
+                    </a>
+                    <a className="text-[1.2rem] p-1.5 cursor-pointer rounded-full text-white bg-[#80b500] transition-all duration-300">
+                        <BsInstagram/>
+                    </a>
+                    <a className="text-[1.2rem] p-1.5 cursor-pointer rounded-full text-white bg-[#80b500] transition-all duration-300">
+                        <BsLinkedin/>
+                    </a>
+                </div></div>
+
+
+                <div
+                    className="border-t border-gray-200 pt-[20px] flex items-center w-full flex-wrap gap-[20px] justify-center">
+                    <p className="text-[0.8rem] sm:text-[0.9rem] text-gray-600">© 2024 eShop All Rights
+                        Reserved. </p>
+                </div>
+                </div>
+            </div>
+        </footer>
+    );
 };
 
 export default Footer;
+                    

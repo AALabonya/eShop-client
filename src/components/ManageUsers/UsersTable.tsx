@@ -6,34 +6,38 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useAppSelector } from "@/redux/hook";
-import { TUser } from "@/types/user";
+
 import NoTableDataFound from "../uiElements/NoTableDataFound";
-import DeleteUser from "./DeleteUser";
+
 import SuspendUser from "./SuspendUser";
+import { TUser } from "@/redux/features/auth/authSlice";
+import { useAppSelector } from "@/redux/hooks";
 interface IProps {
   users: TUser[];
   isLoading: boolean;
 }
 const UsersTable: React.FC<IProps> = ({ users, isLoading }) => {
   const { user: authUser } = useAppSelector((state) => state.auth);
+  console.log(authUser,"auth" );
+  console.log(users,"users helooooo");
+  
   return (
     <Table>
       <TableHeader>
         <TableRow>
           <TableHead>First Name</TableHead>
-          <TableHead>Last Name</TableHead>
+        
           <TableHead>Email</TableHead>
           <TableHead>Role</TableHead>
           <TableHead>Created At</TableHead>
           <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>
+      {/* <TableBody>
         {users.map((user) => (
           <TableRow key={user.id}>
-            <TableCell>{user.first_name}</TableCell>
-            <TableCell>{user.last_name}</TableCell>
+            <TableCell>{user.name}</TableCell>
+          
             <TableCell>{user.email}</TableCell>
             <TableCell>{user.role}</TableCell>
             <TableCell>
@@ -53,7 +57,7 @@ const UsersTable: React.FC<IProps> = ({ users, isLoading }) => {
         ))}
 
         {!isLoading && users.length === 0 && <NoTableDataFound span={7} />}
-      </TableBody>
+      </TableBody> */}
     </Table>
   );
 };

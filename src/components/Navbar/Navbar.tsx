@@ -5,55 +5,17 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
+import { ICategory } from "@/types/modal";
 
 
 
 const Navbar = () => {
   const path = usePathname();
   const [open, setOpen] = useState(false);
-  
+  const { data: allCategories, isLoading } = useGetAllCategoriesQuery(undefined);
+console.log(allCategories,"llll");
 
-  // useEffect(() => {
-  //   if (data) {
-  //     console.log('Categories:', data?.data);
-  //   }
-  //   if (error) {
-  //     console.log('Error:', error);
-  //   }
-  // }, [data, error]);
-  // useEffect(() => {
-  //   const handleOutsideClick = (event: MouseEvent) => {
-  //     // event target
-  //     const target = event.target as HTMLElement;
-  //     // screent width
-  //     // return if the user click on the drawer or the navbar
-  //     if (target.closest("")) {
-  //       return;
-  //     }
-
-  //     setOpen(false);
-  //   };
-
-  //   // hide sidebar on clicking outside
-  //   if (open) {
-  //     document.body.addEventListener("mousedown", handleOutsideClick);
-  //   } else {
-  //     document.body.removeEventListener("mousedown", handleOutsideClick);
-  //   }
-
-  //   return () => {
-  //     document.body.removeEventListener("mousedown", handleOutsideClick);
-  //   };
-  // }, [open, setOpen]);
-
-  // Handle categories loading and error states
-  // if (isLoading) {
-  //   return <div>Loading categories...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>Error fetching categories</div>;
-  // }
+ 
   return (
     <div className={path === "/dashboard" ? "hidden" : ""}>
       <div className={`md:flex hidden items-center justify-between`}>
@@ -67,12 +29,16 @@ const Navbar = () => {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>CATEGORIES</SelectLabel>
-                {/* {data?.data.map((category:any) => (
-          <li key={category.id}>
-            <img src={category.image} alt={category.name} width={50} />
-            <p>{category.name}</p>
-          </li>
-        ))} */}
+               {allCategories?.map((category:ICategory) => (
+                                            <Link
+                                                key={category?.id}
+                                                href={`/all-products?${category?.label}`}
+                                                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
+                                            >
+                                                {category?.name}
+                                            </Link>
+                                        ))
+                                      }
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -101,14 +67,14 @@ const Navbar = () => {
             </button>
           </Link>
           <Link
-            href="/shop"
+            href="/flashSale"
             className={path === "/about" ? "bg-gray-200 font-bold" : ""}
           >
             <button className="text-[18px] font-bold hover:bg-gray-200 flex text-gray-700 items-center gap-2 px-[15px] py-[5px]  uppercase rounded-md">
               <span>
                
               </span>{" "}
-           Shop
+           Flash Sale
             </button>
           </Link>
 

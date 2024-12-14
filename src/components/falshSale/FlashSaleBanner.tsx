@@ -2,10 +2,10 @@ const FlashSaleBanner = () => {
   
   return (
     <div
-      className="w-full h-[400px] bg-[#ff9969] rounded-[18px] center"
+      className="w-full h-[300px] bg-[#ff9969] rounded-[18px] center"
       style={{
-        backgroundImage: "url(/images/banner/flashsale.png)",
-        backgroundSize: "cover",
+        backgroundImage: "url('https://img.freepik.com/premium-photo/flash-sale-percent-sign_777576-17086.jpg?w=1060')",
+        backgroundSize: "object-fit",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}

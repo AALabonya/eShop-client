@@ -1,202 +1,140 @@
-// "use client";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
-// import {
-//   useUpdateUserImageMutation,
-//   useUpdateUserInfoMutation,
-// } from "@/redux/features/auth/user.api";
-// import { useAppSelector } from "@/redux/hook";
-// import { TUser } from "@/types/user";
-// import { local_img_url } from "@/utils/localImageURL";
-// import { ErrorMessage, Field, Form, Formik } from "formik";
-// import { UploadIcon } from "lucide-react";
-// import Image from "next/image";
-// import { useState } from "react";
-// import { FaPen } from "react-icons/fa";
-// import "react-phone-number-input/style.css";
-// import { toast } from "sonner";
-// import * as Yup from "yup";
+"use client";
 
-// const validationSchema = Yup.object({
-//   first_name: Yup.string().required("* First Name is required"),
-//   last_name: Yup.string().required("* Last Name is required"),
-//   image: Yup.mixed().optional(),
-// });
-// type Image = { image: string | File | null | undefined };
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useForm } from "react-hook-form";
+import useUserDetails from "@/hooks/userUser";
+import { useChangePasswordMutation } from "@/redux/features/category/authApi";
+import { toast } from "sonner";
+import { useState } from "react";
 
-// const ProfileUpdate = () => {
-//   const { user, token } = useAppSelector((state) => state.auth);
-//   const { first_name, last_name, image } = user as TUser;
-//   const initialValues = {
-//     first_name,
-//     last_name,
-//     image: "",
-//   };
-//   type FormValues = typeof initialValues & Image;
-//   type key = keyof Pick<FormValues, "first_name" | "last_name">;
-//   const [profileUrl, setProfileUrl] = useState(image || "/images/avatar.jpg");
+const Security = () => {
+  const { userData, isLoading } = useUserDetails();
+  const [changePassword] = useChangePasswordMutation();
+  const [showPassword, setShowPassword] = useState(false);
 
-//   // mutation
-//   const [updateDetails] = useUpdateUserInfoMutation();
-//   const [updateProfileImage] = useUpdateUserImageMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: userData?.userData?.email || "",
+      oldPassword: "",
+      newPassword: "",
+    },
+  });
 
-//   const onSubmit = async (values: FormValues) => {
-//     const toastId = toast.loading("Please wait");
-//     const payload: Record<string, any> = {};
+  const handlePasswordChange = async (data: any) => {
+    const passwordInfo = {
+      oldPassword: data.oldPassword,
+      newPassword: data.newPassword,
+    };
 
-//     const { image, ...newRest } = values;
-//     const { image: img, ...oldrest } = initialValues;
+    await toast.promise(changePassword(passwordInfo).unwrap(), {
+      loading: "Changing Password...",
+      success: "You changed your password successfully!",
+      error: "Failed to change password",
+    });
+  };
 
-//     const newValues = Object.entries(newRest);
-
-//     newValues.forEach(([key, value]) => {
-//       if (oldrest[key as key] !== value) {
-//         payload[key] = value;
-//       }
-//     });
-//     try {
-//       if (image) {
-//         const formData = new FormData();
-//         formData.append("file", image);
-//         const res = await updateProfileImage(formData);
-//         const error = res.error as any;
-//         if (!error) {
-//           toast.success("Image updated successfully");
-//         }
-//       }
-
-//       if (!Object.keys(payload).length) {
-//         toast.dismiss(toastId);
-//         return;
-//       }
-//       toast.success("Profile updated");
-//       await updateDetails(payload);
-//     } catch (error) {
-//       console.log(error);
-//       toast.error("Something went wrong while updating your details");
-//     } finally {
-//       toast.dismiss(toastId);
-//     }
-//   };
-
-//   const handleMakeProfilePreviewUrl = async (file: File) => {
-//     const url = await local_img_url(file);
-//     setProfileUrl(url);
-//   };
-
-//   return (
-//     <div className="w-full">
-//       <h1 className="text-[25px] font-[600] mb-[20px]">Update Information</h1>
-//       <Formik
-//         initialValues={initialValues}
-//         validationSchema={validationSchema}
-//         onSubmit={onSubmit}
-//       >
-//         {({ setFieldValue }) => (
-//           <Form>
-//             <div className="grid gap-2">
-//               <div className="flex items-center gap-2">
-//                 <Label
-//                   htmlFor={"image"}
-//                   className="w-[120px] h-[120px] rounded-full overflow-hidden bg-[whitesmoke] relative group/profile border-[1px] border-borderColor p-[3px]"
-//                 >
-//                   <Image
-//                     src={profileUrl}
-//                     width={120}
-//                     height={120}
-//                     alt="avatar"
-//                     className=" w-full h-full object-cover rounded-full"
-//                   />
-
-//                   <span className="absolute top-0 left-0 bg-[#2727272f] w-full h-full scale-0 group-hover/profile:scale-[1] duration-75 rounded-full cursor-pointer center text-white">
-//                     <FaPen />
-//                   </span>
-//                 </Label>
-//                 <Input
-//                   id="image"
-//                   name="image"
-//                   type="file"
-//                   className="invisible w-0"
-//                   accept="image/*"
-//                   onChange={(event) => {
-//                     const file = event.currentTarget.files?.[0];
-//                     if (file) {
-//                       setFieldValue("image", file);
-//                       handleMakeProfilePreviewUrl(file);
-//                     }
-//                   }}
-//                 />
-//                 <ErrorMessage
-//                   name="image"
-//                   component="div"
-//                   className="text-red-500 text-sm mt-[5px]"
-//                 />
-//                 <label
-//                   htmlFor="image"
-//                   className="p-[10px] border-[1px] border-borderColor rounded-[8px]"
-//                 >
-//                   <UploadIcon className="h-4 w-4" />
-//                 </label>
-//               </div>
-//             </div>
-
-//             <div className="mb-4">
-//               <Label htmlFor="first_name">First Name *</Label>
-//               <Field
-//                 as={Input}
-//                 type="text"
-//                 name="first_name"
-//                 className="mt-1 block w-full px-3 py-2 border border-borderColor rounded-md outline-none"
-//               />
-//               <ErrorMessage
-//                 name="first_name"
-//                 component="div"
-//                 className="text-red-500 text-sm mt-[5px]"
-//               />
-//             </div>
-
-//             <div className="mb-4">
-//               <Label htmlFor="last_name">Last Name *</Label>
-//               <Field
-//                 type="text"
-//                 as={Input}
-//                 name="last_name"
-//                 className="mt-1 block w-full px-3 py-2 border border-borderColor rounded-md outline-none"
-//               />
-//               <ErrorMessage
-//                 name="last_name"
-//                 component="div"
-//                 className="text-red-500 text-sm mt-[5px]"
-//               />
-//             </div>
-//             <div className="mb-4">
-//               <Label htmlFor="email">Email</Label>
-//               <Input
-//                 readOnly
-//                 value={user?.email}
-//                 className="mt-1 block w-full px-3 py-2 border border-borderColor rounded-md outline-none bg-[whitesmoke] cursor-not-allowed"
-//               />
-//             </div>
-
-//             <div className="flex justify-end w-full">
-//               <Button type="submit" className="bg-main text-white w-[100px]">
-//                 Submit
-//               </Button>
-//             </div>
-//           </Form>
-//         )}
-//       </Formik>
-//     </div>
-//   );
-// };
-
-// export default ProfileUpdate;
-
-const page = () => {
   return (
-    <>setting</>
-  )
+    <section>
+      <div className="flex flex-col items-center justify-center px-6 mx-auto lg:py-0">
+        <h2 className="text-xl font-semibold mb-4">Update Login Credentials</h2>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <form
+            onSubmit={handleSubmit(handlePasswordChange)}
+            className="w-full p-6 rounded-lg shadow md:mt-5 sm:max-w-2xl sm:p-8"
+          >
+            <div className="py-5">
+              <label htmlFor="email" className="block mb-2 text-sm font-medium">
+                Email
+              </label>
+              <Input
+                id="email"
+                type="email"
+                readOnly
+                {...register("email")}
+                className="border-gray-300"
+              />
+            </div>
+            <div className="pb-5">
+              <label
+                htmlFor="oldPassword"
+                className="block mb-2 text-sm font-medium"
+              >
+                Old Password
+              </label>
+              <div className="relative">
+                <Input
+                  id="oldPassword"
+                  type={showPassword ? "text" : "password"}
+                  {...register("oldPassword", {
+                    required: "Old password is required",
+                  })}
+                  className="border-gray-300"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2 top-2 text-sm text-gray-500"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+              {errors.oldPassword && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.oldPassword.message}
+                </p>
+              )}
+            </div>
+            <div className="pb-8">
+              <label
+                htmlFor="newPassword"
+                className="block mb-2 text-sm font-medium"
+              >
+                New Password
+              </label>
+              <div className="relative">
+                <Input
+                  id="newPassword"
+                  type={showPassword ? "text" : "password"}
+                  {...register("newPassword", {
+                    required: "New password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters long",
+                    },
+                  })}
+                  className="border-gray-300"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2 top-2 text-sm text-gray-500"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+              {errors.newPassword && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.newPassword.message}
+                </p>
+              )}
+            </div>
+            <div className="flex justify-center items-center mb-10">
+              <Button type="submit" className="w-full">
+                Change Password
+              </Button>
+            </div>
+          </form>
+        )}
+      </div>
+    </section>
+  );
 };
 
-export default page;
+export default Security;

@@ -21,7 +21,7 @@ const DashboardRoot = () => {
     if (userData?.userData?.role === "CUSTOMER") {
       router.replace("/");
     } else {
-      router.replace(`/dashboard/${userData?.userData?.role.role.toLowerCase()}`);
+      router.replace(`/dashboard/${userData?.userData?.role?.toLowerCase()}`);
     }
   }, [userData?.userData, router, token]);
   return <div></div>;

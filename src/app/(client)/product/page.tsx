@@ -1,126 +1,4 @@
 
-// // import ProductOrderActions from "@/components/productDetails/ProductOrderActions";
-// // import ProductReviews from "@/components/productDetails/ProductReviews";
-// // import RelatedPropducts from "@/components/productDetails/RelatedPropducts";
-// // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// // import { Badge } from "@/components/ui/badge";
-// // import { Card } from "@/components/ui/card";
-// // import { baseUrl1 } from "@/redux/api/appSlice";
-
-// // import { getDiscountPrice } from "@/utils/product";
-// // import { getFallbackText } from "@/utils/trimText";
-// // import { StarIcon, Store } from "lucide-react";
-// // import { Metadata } from "next";
-// // import Link from "next/link";
-// // import { motion } from "framer-motion";
-// // import { IProduct } from "@/types/modal";
-// // import Image from "next/image";
-
-
-// // export default async function ProductDetails({ params }: any) {
-// //   const res = await fetch(`${baseUrl1}/product/get/${params.id}`, {
-// //     cache: "no-store",
-// //   });
-// //   const data = await res.json();
-
-// //   const product = data.data as IProduct;
-// //   // console.log({ product, params });
- 
-// //   return (
-// //     <div className="mx-auto py-8">
-// //       <div className="flex flex-col shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] lg:flex-row items-start justify-start gap-8 bg-white p-[25px] rounded-[15px]">
-// //       <div className="w-full 800px:w-[50%]">
-// //       <div className="w-full lg:sticky top-0 text-center">
-// //                         <div className="lg:h-[560px]">
-// //                             <Image width={300}  height={200} src="https://readymadeui.com/images/product6.webp" alt="Product" className="lg:w-11/12 w-full h-full rounded-md object-cover object-top" />
-// //                         </div>
-
-// //                         <div className="flex flex-wrap gap-4 justify-center mx-auto mt-4">
-// //                         <Image width={300}  height={200} src="https://readymadeui.com/images/product6.webp" alt="Product1" className="w-24 h-20 flex items-center justify-center rounded-lg p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] cursor-pointer" />
-// //                         <Image width={300}  height={200} src="https://readymadeui.com/images/product8.webp" alt="Product2" className="w-24 h-20 flex items-center justify-center rounded-lg p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] cursor-pointer" />
-// //                         <Image width={300}  height={200} src="https://readymadeui.com/images/product5.webp" alt="Product3" className="w-24 h-20 flex items-center justify-center rounded-lg p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] cursor-pointer" />
-// //                         <Image width={300}  height={200} src="https://readymadeui.com/images/product7.webp" alt="Product4" className="w-24 h-20 flex items-center justify-center rounded-lg p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] cursor-pointer"/>
-// //                         </div>
-// //                     </div>
-// //               </div>
-// //         <div className="w-full">
-// //           <h1 className="text-3xl font-bold mb-2">{product?.name}</h1>
-// //           <span className="text-[14px] mr-2 italic line-through">
-// //             ${product?.price?.toFixed(2)}
-// //           </span>
-// //           <div className="flex items-center mb-4">
-// //             <span className="text-2xl mr-2 font-bold">
-// //               ${getDiscountPrice(product?.price, product?.discount)?.toFixed(2)}
-// //             </span>
-// //             {/* {product?.tag && <Badge className="bg-main">{product?.tag}</Badge>} */}
-// //           </div>
-// //           <div className="flex items-center mb-4">
-// //             <div className="flex mr-2">
-// //               {[...Array(5)].map((_, i) => (
-// //                 <StarIcon
-// //                   key={i}
-// //                   className={`w-5 h-5 ${
-// //                     i < Math.floor(product?.rating)
-// //                       ? "text-yellow-400 fill-current"
-// //                       : "text-gray-300"
-// //                   }`}
-// //                 />
-// //               ))}
-// //             </div>
-// //             <span className="text-gray-600">
-// //               {product?.rating?.toFixed(1)}
-// //             </span>
-// //           </div>
-// //           <ProductOrderActions product={product} />{" "}
-// //           <Link href={`/shop/${product?.shopId}`} className="w-full mt-6 flex">
-// //             <Card className="p-4 w-full">
-// //               <div className="flex items-center gap-3">
-// //                 <Avatar>
-// //                   <AvatarImage
-// //                     src={product?.shopInfo?.logo || ""}
-// //                     alt="Shop Logo"
-// //                   />
-// //                   <AvatarFallback>
-// //                     {getFallbackText(product?.shopInfo?.name || "NC", 2)}
-// //                   </AvatarFallback>
-// //                 </Avatar>
-// //                 <div>
-// //                   <div className="text-sm text-muted-foreground flex items-center gap-1">
-// //                     <Store className="w-4 h-4" />
-// //                     <span>Sold By</span>
-// //                   </div>
-// //                   <h6 className="font-semibold hover:text-primary">
-// //                     {product?.shopInfo?.name}
-// //                   </h6>
-// //                 </div>
-// //               </div>
-// //             </Card>
-// //           </Link>
-// //         </div>
-// //       </div>
-
-// //       <div className="flex flex-col gap-[20px] mt-[30px] bg-white p-[15px] shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)]">
-// //         <h1
-// //           className={`px-[10px] text-[40px] font-[400] w-full border-b-[1px] border-borderColor`}
-// //         >
-// //           Product Description
-// //         </h1>
-// //         <div
-// //           className={`reset-all`}
-// //           dangerouslySetInnerHTML={{ __html: product?.description }}
-// //         ></div>
-// //       </div>
-
-// //       <ProductReviews productId={product?.id} />
-// //       <RelatedPropducts categoryId={product?.categoryId} />
-// //       {/* <AddToRecentProductList productId={product?.id} /> */}
-// //     </div>
-// //   );
-// // }
-// /* eslint-disable @typescript-eslint/no-unused-vars */
-// "use client";
-
-
 "use client";
 
 import Image from "next/image";
@@ -137,7 +15,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-
+import { motion, useInView } from "framer-motion";
 import { PiStarFourFill } from "react-icons/pi";
 import Link from "next/link";
 import { useAddRecentProductMutation, useGetAllProductsQuery, useGetSingleProductQuery } from "@/redux/features/products/productApi";
@@ -146,12 +24,16 @@ import { addProduct, clearCart } from "@/redux/features/products/productSlice";
 import { toast } from "sonner";
 import Loading from "@/app/loading";
 import QuantitySelector from "@/components/Home/QuantitySelector";
-import { IProduct } from "@/types/modal";
+import { IProduct, IReview } from "@/types/modal";
 import HomePageProductCard from "@/components/HomePage/HomePageProductCard";
 import WarningModal from "@/components/shared/CarConflictVendorWarning";
 import ReviewResponse from "@/components/ManageReview/ReviewResponse";
 import { Separator } from "@radix-ui/react-select";
 import { Button } from "@/components/ui/button";
+import ReactStars from "react-stars";
+import { useGetReviewsByIdQuery } from "@/redux/features/review/reviewsApi";
+import { Card, CardContent } from "@/components/ui/card";
+import { MessageSquare } from "lucide-react";
 
 const ProductDetails = () => {
   const searchParams = useSearchParams();
@@ -183,6 +65,10 @@ console.log(data?.data,"data");
   const { data: allProductsResponse, isLoading: allProductsLoading } =
     useGetAllProductsQuery({ category });
 
+    const { data: productReview, isLoading: reviewLoading } =
+    useGetReviewsByIdQuery(productId ?? "", {
+      skip: !productId,
+    });
 
   useEffect(() => {
     const addProduct = async () => {
@@ -406,29 +292,7 @@ console.log(data?.data,"data");
                   />
                 </div>
       
-                {/* <div className="flex-1 flex items-end justify-center">
-                  {isDisabled ? (
-                    <button
-                      disabled={isDisabled}
-                      className="flex items-center gap-2 px-6 py-[10px]  rounded-lg w-full justify-center disabled:bg-gray-700 disabled:opacity-50"
-                    >
-                      <BsCart3 /> <span>Add to cart</span>
-                    </button>
-                  ) : (
-                    <label
-                      htmlFor="my-drawer-4"
-                      className="drawer-button w-[280px] mx-auto lg:w-full lg:mx-auto"
-                    >
-                      <span
-                        onClick={handleAddToCart}
-                        className="flex items-center gap-2 px-6 py-3  rounded-lg w-full justify-center cursor-pointer relative h-12 w-30 origin-top transform border-2 border-primary text-primary before:absolute before:top-0 before:block before:h-0 before:w-full before:duration-500 hover:text-black hover:before:absolute hover:before:left-0 hover:before:-z-10 hover:before:h-full hover:before:bg-primary uppercase font-bold"
-                      >
-                        <BsCart3 className="font-bold" />{" "}
-                        <span>Add to cart</span>
-                      </span>
-                    </label>
-                  )}
-                </div> */}
+             
               </div>
               <div className="flex flex-wrap gap-4">
                         <div>
@@ -462,11 +326,21 @@ console.log(data?.data,"data");
             </div>
           </div>
 <Separator/>
-<div className="flex justify-end">
-<div className="flex justify-between gap-24 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] border  py-5 rounded-lg">
+<section className="mt-[40px] bg-white p-[15px]">
+      
+<h1
+        className={`px-[10px] text-[40px] font-[400] w-full border-b-[1px] border-borderColor`}
+      >
+    Shop Owner Info 
+      </h1>
+    
+        <Card className="w-full mt-[20px]">
+          <CardContent className="">
+         
+            <div className="flex justify-between py-5 rounded-lg">
 <div className="px-4 w-1/2">
-<h1>Shop Owner: {data?.vendor?.name}</h1>
-                <span className="font-bold">Shop Name:</span>{" "}
+<h1 className="text-3xl">Shop Owner: {data?.vendor?.name}</h1>
+                <span className="font-bold text-3xl">Shop Name:</span>{" "}
                 <span
                   className="relative inline-block text-2xl font-medium text-gray-400 cursor-pointer"
                 >
@@ -475,16 +349,117 @@ console.log(data?.data,"data");
                 
                 </span>
 </div>
-       <div className="w-1/2">
+       <div className="w-1/2 flex justify-center gap-5">
        <Link href={`/shopPage?${params.toString()}`}>
-       <Button> View Shop Details
+       <Button className="bg-[#7fad39] text-white"> View Shop Details
           </Button>  
           </Link>
-          <Button className="mt-5">Follow Shop
+          <Button className="bg-[#7fad39] text-white">Follow Shop
           </Button>  
        </div>
 </div>
+          </CardContent>
+        </Card>
+    
+        <div className="flex flex-col gap-[15px] w-full">
+          <div className="text-center text-gray-500">
+   
+    </div>
+        </div>
+
+    </section>
+<div className="flex justify-end">
+
 </div>
+{/* reviews section  */}
+<section className="mt-[40px] bg-white p-[15px]">
+      <h1
+        className={`px-[10px] text-[40px] font-[400] w-full border-b-[1px] border-borderColor`}
+      >
+        Reviews 
+      </h1>
+
+      {productReview?.length === 0 ? (
+        <Card className="w-full mt-[20px]">
+          <CardContent className="flex flex-col items-center justify-center py-10">
+            <MessageSquare className="h-12 w-12 text-muted-foreground mb-4" />
+            <h3 className="text-lg font-semibold mb-2">No Reviews Yet</h3>
+            <p className="text-sm text-muted-foreground text-center">
+              Be the first to share your thoughts about this product!
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="flex flex-col gap-[15px] w-full">
+          <div className="text-center text-gray-500">
+      <motion.div
+       
+        initial={{ opacity: 0, y: 50 }}
+        
+        transition={{
+          duration: 0.8,
+          delay: 0.4,
+          ease: "easeOut",
+        }}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 px-4">
+          {productReview?.map((singleReview: IReview, index: number) => (
+            <div
+              key={index}
+              className="px-10 pb-12 border-2 border-primary rounded-lg"
+            >
+              <div className="flex items-center gap-10 pt-8">
+                <div className="flex">
+                  <img
+                    src={singleReview?.customer?.profilePhoto}
+                    alt="profile"
+                    className="rounded-full w-20 h-20 object-cover object-top"
+                  />
+                  <svg
+                    viewBox="-1 0 19 19"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="cf-icon-svg w-10 -ml-5"
+                  >
+                    <g id="SVGRepo_bgCarrier" strokeWidth="0" />
+                    <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
+                    <g id="SVGRepo_iconCarrier">
+                      <path
+                        d="M16.417 9.583A7.917 7.917 0 1 1 8.5 1.666a7.917 7.917 0 0 1 7.917 7.917z"
+                        fill="#f5840c"
+                      />
+                      <path
+                        d="M7.659 9.733a3.333 3.333 0 0 0-.362-2.507 2.543 2.543 0 0 0-.908-.851 2.504 2.504 0 0 0-1.364-.278 2.259 2.259 0 0 0-1.297 3.99 2.23 2.23 0 0 0 2.515.211 3.335 3.335 0 0 1-1.655 1.403 3.942 3.942 0 0 1-.485.164 1.84 1.84 0 0 0-.445.128.567.567 0 0 0 .32 1.059 2.496 2.496 0 0 0 .5-.113 5.2 5.2 0 0 0 .475-.161A4.37 4.37 0 0 0 7.57 10.07q.053-.167.09-.337zm6.34 0a3.331 3.331 0 0 0-.362-2.507 2.54 2.54 0 0 0-.908-.851 2.502 2.502 0 0 0-1.364-.278 2.259 2.259 0 0 0-1.297 3.99 2.229 2.229 0 0 0 2.515.211 3.334 3.334 0 0 1-1.654 1.403 3.96 3.96 0 0 1-.486.164 1.847 1.847 0 0 0-.445.128.568.568 0 0 0 .32 1.059 2.496 2.496 0 0 0 .5-.113q.241-.07.475-.161a4.37 4.37 0 0 0 2.617-2.708q.052-.167.089-.337z"
+                        fill="#ffffff"
+                      />
+                    </g>
+                  </svg>
+                </div>
+                <div>
+                  <h1 className="text-2xl font-semibold text-white">
+                    {singleReview?.customer?.name}
+                  </h1>
+                  <ReactStars
+                    count={5}
+                    value={singleReview?.rating}
+                    size={24}
+                    color2={"#f5840c"}
+                    edit={false}
+                  />
+                </div>
+              </div>
+              <div className="mt-8">
+                <p className="md:text-lg text-left text-gray-300">
+                  &quot;{singleReview?.comment}&quot;
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+        </div>
+      )}
+    </section>
 
           <div className="my-10">
           <div className="">
