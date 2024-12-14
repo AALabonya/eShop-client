@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import useUserDetails from "@/hooks/userUser";
 import { addProduct, clearCart } from "@/redux/features/products/productSlice";
 import { toast } from "sonner";
-import WarningModal from "../shared/CarConflictVendorWarning";
 import Image from "next/image";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { Eye, ShoppingBasket } from "lucide-react";
@@ -17,6 +16,7 @@ import { FaArrowCircleRight } from "react-icons/fa";
 import { addCompareProducts, removeFromComparison, selectCompareProducts } from "@/redux/features/productCompare/compareSlice";
 import ProductComparison from "../productComparison/ProductComparison";
 import { GrCompare } from "react-icons/gr";
+import WarningModal from "../shared/ConflictWarningModal";
 interface ProductCardProps {
   singleProduct: IProduct;
   isCompareActive?: boolean;
@@ -222,61 +222,6 @@ const HomePageProductCard = ({ singleProduct}: { singleProduct: IProduct }) => {
         )}
       </div>
 
-      {/* Details Section */}
-      {/* <div className="gap-2 flex flex-col">
-        <h1 className="text-xl font-semibold text-white flex-grow">
-          {singleProduct.name}
-        </h1>
-        <div className="flex gap-2 items-center mt-3 mb-1">
-          <span className="font-medium md:text-lg text-white">Price:</span>
-          <h2
-            className={`font-medium md:text-lg text-white ${singleProduct?.flashSale && "line-through"}`}
-          >
-            <span>$</span>
-            {singleProduct.price}
-          </h2>
-          {singleProduct?.flashSale && (
-            <h2 className="font-medium md:text-lg text-primary">
-              <span>$</span>
-              {discountedPrice}
-            </h2>
-          )}
-        </div>
-
-        <Link href={`/productDetails?${params.toString()}`}>
-          <button className="relative h-10 w-full origin-top transform rounded-lg border-2 border-primary text-primary before:absolute before:top-0 before:block before:h-0 before:w-full before:duration-500 hover:text-white hover:before:absolute hover:before:left-0 hover:before:-z-10 hover:before:h-full hover:before:bg-primary uppercase font-bold px-3">
-            View Details
-          </button>
-        </Link>
-
-        <WarningModal
-          isOpen={isModalOpen}
-          onConfirm={handleConfirmReplace}
-          onCancel={handleCancel}
-        />
-      </div> */}
-   {/* <Link  href={`/product/`}>
-   <div className="flex-1">
-
-    <div className="flex items-center justify-between mt-2">  <button className="text-white text-sm font-medium bg-[#7fad39] px-2 py-1 rounded-md">
-                 {singleProduct.category?.name || "Unknown Category"}
-               </button> <p className="font-semibold flex items-center gap-1 text-red-500 pb-2 transition-all duration-500">
-              $ {singleProduct?.discount}
-             </p></div>
-
-             <h3 className="font-medium text-slate-800 my-1 mt-1 hover:text-red-500 duration-500">
-             {singleProduct.name}
-             </h3>
-
-             <button className="block lg:hidden text-red-500 absolute bottom-5 right-4">
-              {" "}
-               <FaArrowCircleRight className="text-[21px]" />{" "}
-             </button>
-
- 
-
-      </div>
-   </Link> */}
     <Link href={`/product?${params.toString()}`}>
      <div className="gap-2 flex-1 flex-col">
      <button className="text-white text-sm font-medium bg-[#7fad39] px-3 py-1 rounded-md">
