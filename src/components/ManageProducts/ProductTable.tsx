@@ -16,7 +16,7 @@ import DuplicateProduct from "./DuplicateProduct";
 import ProductDelete from "./ProductDelete";
 import { IProduct } from "@/types/modal";
 import { useState } from "react";
-import UpdateProductView from "@/views/UpdateProductView";
+// import UpdateProductView from "@/views/UpdateProductView";
 
 interface IProps {
   products: IProduct[];
@@ -74,11 +74,11 @@ const ProductTable: React.FC<IProps> = ({ products, isLoading }) => {
           </TableBody>
         </Table>
       </CardContent>
-      <UpdateProductView
+      {/* <UpdateProductView
                 product={productToEdit}
                 open={editDialogOpen}
                 onClose={() => setEditDialogOpen(false)}
-            />
+            /> */}
     </Card>
   );
 };

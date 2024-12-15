@@ -56,7 +56,7 @@ const RecentViewProducts = () => {
           {totalProducts === 0 ? (
             <div className="flex flex-col items-center mt-20">
               <Image
-                src="/images/empty-view.png"
+                src="/favicon.ico.png"
                 alt="No Products Found"
                 width={200}
                 height={200}

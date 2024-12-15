@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import logo from "@/src/assets/logo.png";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { resetPassword } from "@/utils/loginService";

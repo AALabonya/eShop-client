@@ -1,10 +1,7 @@
-
-import UpdateProductView from "@/views/UpdateProductView";
-
-const page = () => {
+const Page = () => {
   return (
-    <UpdateProductView  />
+    <>update</>
   );
 };
 
-export default page;
+export default Page;

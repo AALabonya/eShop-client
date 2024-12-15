@@ -6,13 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { Separator } from "../ui/separator";
 import { useAppSelector } from "@/redux/hooks";
-// import { categoryData } from "../const/category";
-// const categoryLinks = [...categoryData].slice(0, 3).map((cat) => {
-//   return {
-//     lebel: cat.name,
-//     href: `/shop?dcategory=${cat._id}`,
-//   };
-// });
+
 
 const navLinks = [
   {
