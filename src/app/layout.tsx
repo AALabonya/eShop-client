@@ -34,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <link rel="icon" href="/favicon.ico.png  " sizes="any" />
+      {/* <link rel="icon" href="/favicon.ico.png  " sizes="any" /> */}
       <body className={judson.className}>
         <ReduxProvider>{children}</ReduxProvider>
       </body>

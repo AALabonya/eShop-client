@@ -3,7 +3,6 @@
 import { logout } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
 import { userProfileLinks } from "@/utils/profileSidebarLinks";
-import Cookies from "js-cookie";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { CiLogout } from "react-icons/ci";

@@ -1,17 +1,6 @@
 "use client";
 
 import { Key, useEffect, useState } from "react";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@nextui-org/dropdown";
-import { Button } from "@nextui-org/button";
-import { GrCompare } from "react-icons/gr";
-import { BiFilterAlt } from "react-icons/bi";
-import { ImCross } from "react-icons/im";
-import Slider from "react-slider";
 import { Pagination } from "@nextui-org/pagination";
 import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
 import { useGetAllProductsQuery } from "@/redux/features/products/productApi";

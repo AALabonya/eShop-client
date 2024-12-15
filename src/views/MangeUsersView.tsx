@@ -5,7 +5,8 @@ import UsersTable from "@/components/ManageUsers/UsersTable";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { NextPagination } from "@/components/uiElements/NextPagination";
 import NextSearchBox from "@/components/uiElements/NextSearchBox";
-import { useGetUserListQuery } from "@/redux/features/admin/admin.api";
+import { useGetAllUsersQuery } from "@/redux/features/category/authApi";
+
 import { useState } from "react";
 
 const MangeUsersView = () => {
@@ -15,7 +16,7 @@ const MangeUsersView = () => {
     role: "",
     searchTerm: "",
   });
-  const { data, isFetching } = useGetUserListQuery(query);
+  const { data, isFetching } =useGetAllUsersQuery(query);
 
   return (
     <Card className="w-full mx-auto relative">
@@ -36,7 +37,7 @@ const MangeUsersView = () => {
             setQuery({ ...query, role: newRole });
           }}
         />
-        <UsersTable users={data?.data || []} isLoading={isFetching} />
+        <UsersTable users={data?.usersData || []} isLoading={isFetching} />
         <NextPagination
           totalDocs={data?.meta.totalDoc || 0}
           limit={10}

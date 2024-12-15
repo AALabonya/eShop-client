@@ -7,7 +7,11 @@ import useUserDetails from "@/hooks/userUser";
 import { useChangePasswordMutation } from "@/redux/features/category/authApi";
 import { toast } from "sonner";
 import { useState } from "react";
-
+interface IFormInputs {
+  email: string;
+  oldPassword: string;
+  newPassword: string;
+}
 const Security = () => {
   const { userData, isLoading } = useUserDetails();
   const [changePassword] = useChangePasswordMutation();
@@ -25,7 +29,7 @@ const Security = () => {
     },
   });
 
-  const handlePasswordChange = async (data: any) => {
+  const handlePasswordChange = async (data: IFormInputs) => {
     const passwordInfo = {
       oldPassword: data.oldPassword,
       newPassword: data.newPassword,

@@ -6,23 +6,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { IOrder } from "@/types/order";
-import { getFallbackText } from "@/utils/trimText";
-import { formatDate } from "date-fns";
-import {
-  Calendar,
-  CreditCard,
-  MapPin,
-  Package,
-  Phone,
-  Store,
-} from "lucide-react";
-import Image from "next/image";
+
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Badge } from "../ui/badge";
+
 import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
+
+import { IOrder } from "@/types/modal";
 
 interface IProps {
   order: IOrder;
@@ -48,10 +37,12 @@ const OrderDetails: React.FC<IProps> = ({
         <DialogHeader>
           <DialogTitle className="text-2xl">Order Details</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-6">
+        {/* <div className="grid gap-6">
           <div className="flex items-center gap-4">
             <div className="flex-shrink-0 w-24 h-24 relative">
               <Image
+              width={500}
+              height={500}
                 src={order.productInfo.images[0]}
                 alt={order.productInfo.name}
                 fill
@@ -129,7 +120,7 @@ const OrderDetails: React.FC<IProps> = ({
           ) : (
             ""
           )}
-        </div>
+        </div> */}
 
         {footerContent ? <DialogFooter>{footerContent}</DialogFooter> : ""}
       </DialogContent>

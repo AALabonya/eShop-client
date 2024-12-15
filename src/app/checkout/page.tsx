@@ -17,6 +17,7 @@ import { RiErrorWarningFill } from "react-icons/ri";
 import { RiCoupon2Fill } from "react-icons/ri";
 import { toast } from "sonner";
 import Loading from "../loading";
+import Image from "next/image";
 
 const CheckOut = () => {
   const { userData } = useUserDetails();
@@ -66,7 +67,7 @@ console.log(stateProducts,"stateProducts");
         toast.dismiss();
         dispatch(clearCart());
         dispatch(clearCoupon());
-        window.location.href = response.data.paymentSession.payment_url;
+        window.location.href = response.data.paymentSession?.payment_url;
       } else {
         toast.error("Failed to process the payment!");
       }
@@ -106,7 +107,7 @@ console.log(stateProducts,"stateProducts");
     if (validCoupon) {
       const couponInfo = {
         code: validCoupon.code,
-        discountType: validCoupon.discountType,
+        discountStatus: validCoupon.discountStatus,
         discountValue: validCoupon.discountValue,
       };
 
@@ -424,8 +425,10 @@ console.log(stateProducts,"stateProducts");
                         <ul role="list" className="divide-y divide-gray-200">
                           <li className="flex py-6 px-4 sm:px-6">
                             <div className="flex-shrink-0">
-                              <img
-                                src={singleProduct.image}
+                              <Image
+                              width={200}
+height={300}                              
+  src={singleProduct.image}
                                 alt=""
                                 className="w-20 rounded-md object-contain"
                               />

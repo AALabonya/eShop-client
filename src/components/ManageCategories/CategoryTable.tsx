@@ -6,8 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ICategory } from "@/types/category";
+
 import EditCategory from "./EditCategory";
+import { ICategory } from "@/types/modal";
 
 interface IProps {
   categories: ICategory[];

@@ -1,7 +1,5 @@
 "use client";
 
-import { FaCartArrowDown } from "react-icons/fa6";
-
 interface QuantitySelectorProps {
   quantity: number;
   increment: () => void;

@@ -10,9 +10,6 @@ const EditMyShop= () => {
 
   const { userData } = useUserDetails();
 
- console.log(userData?.userData?.shopName);
- console.log(userData?.userData?.logo);
- console.log(userData?.userData?.description);
   return (
 
      <>

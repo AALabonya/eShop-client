@@ -1,9 +1,7 @@
 "use client";
-import ShopsTable from "@/components/MangeShops/ShopsTable";
-import ShopStatusSelection from "@/components/MangeShops/ShopStatusSelection";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import NextSearchBox from "@/components/uiElements/NextSearchBox";
-import { useGetShopListQuery } from "@/redux/features/admin/admin.api";
 import { useState } from "react";
 
 const MangeShopView = () => {
@@ -14,7 +12,7 @@ const MangeShopView = () => {
     searchTerm: "",
   });
 
-  const { data, isFetching } = useGetShopListQuery(query);
+
 
   return (
     <Card className="w-full mx-auto">
@@ -30,13 +28,8 @@ const MangeShopView = () => {
           }}
         />
 
-        <ShopStatusSelection
-          onChange={(val) => {
-            const list = val === " " ? "" : val;
-            setQuery({ ...query, isBlackListed: list });
-          }}
-        />
-        <ShopsTable isLoading={isFetching} shops={data?.data || []} />
+
+       
       </CardContent>
     </Card>
   );

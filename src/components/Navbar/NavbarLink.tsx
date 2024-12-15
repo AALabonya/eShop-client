@@ -3,8 +3,19 @@ import React from "react";
 
 import Link from "next/link";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "../ui/navigation-menu";
+interface Component {
+  title: string;
+  path: string;
+  description: string;
+}
 
-const NavbarLink = ({ Home, name, link, path }:any) => {
+interface NavbarLinkProps {
+  Home?: Component[];  
+  name: string;
+  link: string;
+  path: string;
+}
+const NavbarLink = ({ Home, name, link, path }:NavbarLinkProps) => {
   return (
     <NavigationMenu>
       <NavigationMenuList>

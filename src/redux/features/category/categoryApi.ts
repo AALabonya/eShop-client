@@ -1,5 +1,4 @@
-
-import { TResponseRedux } from "@/types/modal";
+import { TResponseRedux } from "@/types/global";
 import { baseApi } from "../../api/baseApi";
 
 const categoryApi = baseApi.injectEndpoints({
@@ -16,7 +15,21 @@ const categoryApi = baseApi.injectEndpoints({
       },
       providesTags: ["category"],
     }),
+    createCategory: builder.mutation({
+      query: (newCategory) => {
+        return {
+          url: "/category",
+          method: "POST",
+          body: newCategory, 
+        };
+      },
+      transformResponse: (response: TResponseRedux<any>) => {
+        return response.data;
+      },
+     
+      invalidatesTags: ["category"],
+    }),
   }),
 });
 
-export const { useGetAllCategoriesQuery } = categoryApi;
+export const { useGetAllCategoriesQuery, useCreateCategoryMutation } = categoryApi;

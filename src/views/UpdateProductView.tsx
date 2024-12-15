@@ -1,138 +1,350 @@
-"use client";
-import ImageUpload from "@/components/ProductFields/ImageUpload";
-import PrimaryInfo from "@/components/ProductFields/PrimaryInfo";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
-import DashboardHeading from "@/components/uiElements/DashboardHeading";
 import {
-  useGetProductByIdQuery,
-  useUpdateProductMutation,
-} from "@/redux/features/product/product.api";
-import { IProduct } from "@/types/product";
-import { productValidation } from "@/validation/productValidation";
-import { Form, Formik } from "formik";
-import { ArrowLeft, Loader } from "lucide-react";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { FaSpinner } from "react-icons/fa";
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+
+import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
+
+import { SerializedError } from "@reduxjs/toolkit";
+import Image from "next/image";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-const UpdateProductView = () => {
-  const id = useParams().id as string;
-  const router = useRouter();
 
-  const { data, isFetching } = useGetProductByIdQuery(id);
-  const [updateProduct, { isLoading }] = useUpdateProductMutation();
+import { ErrorResponse, IProduct } from "@/types/modal";
+import { useUpdateProductMutation } from "@/redux/features/products/productApi";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 
-  const [initialValues, setInitialValues] = useState<IProduct | undefined>();
-  useEffect(() => {
-    setInitialValues(data?.data);
-  }, [data]);
+interface UpdateProductViewProps {
+    product: IProduct | null;
+    open: boolean;
+    onClose: () => void;
+}
 
-  if (!initialValues || isFetching) {
-    return <Loader />;
-  }
+const UpdateProductView = ({
+    product,
+    open,
+    onClose,
+}: EditProductDialogProps) => {
+    const form = useForm<IProduct>({
+        defaultValues: product || {
+            name: "",
+            price: 0,
+            description: "",
+            categoryId: "",
+            stockQuantity: 0,
+            discount: 0,
+         
+            
+        },
+        values: product || undefined,
+    });
+    const { reset } = form;
 
-  const handleUpdateProduct = async (values: IProduct) => {
-    const { categoryId, description, images } = initialValues;
+    const [updateProduct, { isSuccess, isError, isLoading, error }] =
+        useUpdateProductMutation();
 
-    if (!categoryId) {
-      return toast.error("Please add a category");
-    }
+    useEffect(() => {
+        if (isError) {
+            const errorResponse = error as ErrorResponse | SerializedError;
 
-    if (!description) {
-      return toast.error("Please add a description");
-    }
+            const errorMessage =
+                (errorResponse as ErrorResponse)?.data?.message ||
+                "Something Went Wrong";
 
-    if (!images.length) {
-      return toast.error("Please upload at least one image");
-    }
+            toast.error(errorMessage);
+        } else if (isSuccess) {
+            toast.success("Product Successfully Updated");
+        }
+    }, [isError, isSuccess, error]);
 
-    const payload = {
-      name: values?.name?.trim(),
-      price: Number(values?.price),
-      discount: Number(values?.discount),
-      tag: values?.tag?.trim(),
-      categoryId,
-      description,
-      images,
+
+    const { data: categories, isLoading: isCategoryLoading } =
+        useGetAllCategoriesQuery(undefined);
+
+    useEffect(() => {
+        reset(
+            product || {
+                name: "",
+                price: 0,
+                description: "",
+                categoryId: "",
+               
+              stockQuantity: 0,
+                discount: 0,
+               
+            }
+        );
+    }, [product, reset]);
+
+    const onSubmit = async (data: IProduct) => {
+        const loadingToast = toast.loading("Product is Updating...");
+            
+        const productData = {
+            name: data.name,
+            price: Number(data.price),
+            description: data.description,
+            categoryId: data.categoryId,
+            stockQuantity: Number(data. stockQuantity),
+            discount: Number(data.discount),
+        };
+
+      
+        if (data.image) {
+            Array.from(data.image).forEach((image) => {
+                formData.append("image", image as unknown as string);
+            });
+        }
+        formData.append("data", JSON.stringify(productData));
+
+        if (product) {
+            formData.append("id", product?.id);
+            await updateProduct({ formData, id: product?.id });
+        }
+        onClose();
+        toast.dismiss(loadingToast);
     };
 
-    try {
-      const res = await updateProduct({ payload: payload, id: id });
-      const error = res.error as any;
+    return (
+        <Dialog open={open} onOpenChange={onClose}>
+            <DialogContent
+                aria-describedby={undefined}
+                className="sm:max-w-[725px]"
+            >
+                <DialogHeader>
+                    <DialogTitle>Edit Brand</DialogTitle>
+                </DialogHeader>
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-6"
+                    >
+                        {/* Basic Information */}
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel htmlFor="name">
+                                        Product Name
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            id="name"
+                                            placeholder="Enter product name"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="price"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel htmlFor="price">Price</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            id="price"
+                                            type="number"
+                                            step="0.01"
+                                            placeholder="Enter product price"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel htmlFor="description">
+                                        Description
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            id="description"
+                                            placeholder="Enter product description"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-      if (error) {
-        toast.error(error?.data?.message || "Something went wrong");
-        router.push("/dashboard/vendor/manage-products");
-        return;
-      }
+                        {/* Category and Brand */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField
+                                control={form.control}
+                                name="categoryId"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel htmlFor="category">
+                                            Category
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Select
+                                                onValueChange={(values) => {
+                                                    field.onChange(values);
+                                                }}
+                                                value={
+                                                    field.value
+                                                        ? String(field.value)
+                                                        : undefined
+                                                }
+                                                disabled={isCategoryLoading}
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue
+                                                        placeholder={
+                                                            isCategoryLoading
+                                                                ? "Loading.."
+                                                                : "Select Category"
+                                                        }
+                                                        
+                                                    />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {categories?.data?.map(
+                                                        (item) => (
+                                                            <SelectItem
+                                                                value={String(
+                                                                    item?.slug
+                                                                )}
+                                                                key={item?.slug}
+                                                            >
+                                                                {item.name}
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                                </SelectContent>
+                                            </Select>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                           
+                        </div>
 
-      router.push("/dashboard/vendor/manage-products");
-      toast.success("Product updated successfully");
+                        {/* Inventory, Discount, and Media */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField
+                                control={form.control}
+                                name="inventory"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel htmlFor="inventory">
+                                            StockQuantity
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                id="inventory"
+                                                type="number"
+                                                placeholder="Enter StockQuantity count"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="discount"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel htmlFor="discount">
+                                            Discount (%)
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                id="discount"
+                                                type="number"
+                                                step="0.01"
+                                                placeholder="Enter discount percentage"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <FormField
+                            control={form.control}
+                            name="thumbnail"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel htmlFor="thumbnail">
+                                        Thumbnail
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            id="thumbnail"
+                                            type="file"
+                                            onChange={(e) =>
+                                                field.onChange(
+                                                    e.target.files?.[0] || null
+                                                )
+                                            }
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="images"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel htmlFor="images">
+                                        Images
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            id="images"
+                                            type="file"
+                                            multiple
+                                            onChange={(e) =>
+                                                field.onChange(
+                                                    e.target.files || null
+                                                )
+                                            }
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-      toast.success("Product updated successfully");
-    } catch {
-      toast.error("Something went wrong while updating your product");
-    }
-  };
-
-  return (
-    <div className="w-full mx-auto">
-      <DashboardHeading
-        title="Update Product"
-        description="Updating your existing product"
-        className="mb-[20px]"
-      />
-
-      <Link
-        href="/dashboard/vendor/manage-products"
-        className="flex items-center mb-[20px] gap-[8px] text-[18px]"
-      >
-        <ArrowLeft className="h-6 w-6" /> Go Back
-      </Link>
-
-      <Formik
-        initialValues={initialValues}
-        validationSchema={productValidation}
-        onSubmit={handleUpdateProduct}
-      >
-        {({ values, setFieldValue }) => (
-          <Form className="w-full mx-auto space-y-8">
-            <ImageUpload
-              onSave={(urls) =>
-                setInitialValues({ ...initialValues, images: urls })
-              }
-              defaultImages={initialValues.images}
-            />
-            <PrimaryInfo
-              values={values}
-              setFieldValue={setFieldValue}
-              defaultCategory={initialValues.categoryInfo}
-              defaultDescription={initialValues.description}
-              onDescriptionChange={(description) =>
-                setInitialValues({ ...initialValues, description })
-              }
-              onCategoryChange={(categories) =>
-                // @ts-ignore
-                setInitialValues({ ...initialValues, categories })
-              }
-            />
-
-            <div className="center gap-[20px] w-fit">
-              <Button type="button" className="w-full" variant={"destructive"}>
-                Cancel
-              </Button>
-
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Updating..." : "Update Product"}
-                {isLoading && <FaSpinner className="animate-spin ml-2" />}
-              </Button>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </div>
-  );
+                        {/* Submit Button */}
+                        <Button
+                            type="submit"
+                            disabled={isLoading}
+                            className="w-full"
+                        >
+                            {isLoading
+                                ? "Upading Product..."
+                                : "Update Product"}
+                        </Button>
+                    </form>
+                </Form>
+            </DialogContent>
+        </Dialog>
+    );
 };
 
 export default UpdateProductView;

@@ -6,8 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { BsCart3 } from "react-icons/bs";
-import { FaCircleXmark, FaTruckFast } from "react-icons/fa6";
-import { MdAssignmentReturn } from "react-icons/md";
+import { FaCircleXmark} from "react-icons/fa6";
 import { AiFillCheckCircle } from "react-icons/ai";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,8 +14,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import { motion, useInView } from "framer-motion";
-import { PiStarFourFill } from "react-icons/pi";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useAddRecentProductMutation, useGetAllProductsQuery, useGetSingleProductQuery } from "@/redux/features/products/productApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -26,14 +24,13 @@ import Loading from "@/app/loading";
 import QuantitySelector from "@/components/Home/QuantitySelector";
 import { IProduct, IReview } from "@/types/modal";
 import HomePageProductCard from "@/components/HomePage/HomePageProductCard";
-import WarningModal from "@/components/shared/CarConflictVendorWarning";
-import ReviewResponse from "@/components/ManageReview/ReviewResponse";
 import { Separator } from "@radix-ui/react-select";
 import { Button } from "@/components/ui/button";
 import ReactStars from "react-stars";
 import { useGetReviewsByIdQuery } from "@/redux/features/review/reviewsApi";
 import { Card, CardContent } from "@/components/ui/card";
 import { MessageSquare } from "lucide-react";
+import WarningModal from "@/components/shared/ConflictWarningModal";
 
 const ProductDetails = () => {
   const searchParams = useSearchParams();

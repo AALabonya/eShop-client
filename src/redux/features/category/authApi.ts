@@ -1,5 +1,5 @@
 
-import { TResponseRedux } from "@/types/modal";
+import { TResponseRedux } from "@/types/global";
 import { baseApi } from "../../api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
@@ -97,6 +97,16 @@ const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["users"],
     }),
+    forgotPassword: builder.mutation({
+      query: (userData) => {
+        return {
+          url: "/auth/forgot-password",
+          method: "POST",
+          body: userData,
+        };
+      },
+      invalidatesTags: ["users"],
+    }),
   }),
 });
 
@@ -108,4 +118,5 @@ export const {
   useGetSingleVendorQuery,
   useGetSingleCustomerQuery,
   useChangePasswordMutation,
+  useForgotPasswordMutation,
 } = authApi;

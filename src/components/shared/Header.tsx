@@ -2,24 +2,17 @@
 "use client";
 import * as React from "react";
 import Image from "next/image";
-import { Menu, Search, ShoppingCart, UserRound } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {IoIosArrowForward } from "react-icons/io";
-import {
-  AiOutlineHeart,
 
-  AiOutlineShoppingCart,
-} from "react-icons/ai";
-import { CalendarDays } from "lucide-react";
 import {
   HoverCard,
   HoverCardContent,
@@ -30,13 +23,10 @@ import Link from "next/link";
 
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useContext } from "react";
-// import Cart from "./Cart";
-// import Wishlist from "./Wishlist";
-import { FaRegUser } from "react-icons/fa";
 
 import Cart from "../Navbar/Cart";
 import { useGetAllProductsQuery } from "@/redux/features/products/productApi";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {  useAppSelector } from "@/redux/hooks";
 import { totalProductsCount } from "@/redux/features/products/productSlice";
 import NavSearchProductCard from "../Home/NavSearchCard";
 import { IProduct } from "@/types/modal";
@@ -51,12 +41,16 @@ const Header = () => {
   const path = usePathname();
 
   const { userData } = useUserDetails();
+  console.log(userData?.userData?.role,"check role");
+  
   const totalProductInCart = useAppSelector(totalProductsCount);
   const [openCart, setOpenCart] = useState(false);
   const [openWishlist, setOpenWishlist] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const productsForComparison = useAppSelector(selectCompareProducts);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   const { data: allProductsResponse, isLoading } = useGetAllProductsQuery(
     {
       searchTerm: debouncedSearchTerm,
@@ -78,7 +72,29 @@ const Header = () => {
   }, [searchTerm]);
 
   console.log(allProductsResponse);
-
+  const handleClickOutside = (event: MouseEvent) => {
+    const searchInput = document.querySelector("#search-input");
+    
+    // Check if the click is outside the search input and close search if true
+    if (searchInput && !searchInput.contains(event.target as Node)) {
+      setSearchTerm(""); // Clear search term
+      setIsSearchOpen(false); // Close search dropdown
+    }
+  };
+  
+  useEffect(() => {
+    // Add event listener to detect clicks outside
+    document.addEventListener("click", handleClickOutside);
+  
+    // Clean up the event listener on component unmount
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []); 
+  
+  
+  
+  
   return (
     <div className={path === "/api/dashboard" ? "hidden" : ""}>
       <div className="px-2 md:px-0">
@@ -193,19 +209,25 @@ const Header = () => {
                 </div>
                 <div className="lg:flex  items-center hidden ml-[100px] gap-6">
                   <div>
-                    <div className="relative">
-                      <input
-                         value={searchTerm}
-                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="bg-[#f3f4f7] outline-none px-8 py-3 rounded-md md:w-[440px] xl:w-[600px]"
-                        type="text"
-                        placeholder="Search for products..."
-                      />
-                      <div className="absolute right-6 cursor-pointer top-4">
+              
+                    <div className="relative search-container">
+                    <input
+  id="search-input"
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  onFocus={() => setIsSearchOpen(true)}
+  onClick={(e) => e.stopPropagation()}  // Prevent click from propagating
+  className="bg-[#f3f4f7] outline-none px-8 py-3 rounded-md md:w-[440px] xl:w-[600px]"
+  type="text"
+  placeholder="Search for products..."
+/>
+
+   <div className="absolute right-6 cursor-pointer top-4">
                         <Search className="text-gray-600" />
                       </div>
-                    </div>
-                    <div className="py-8 grid grid-cols-2 md:grid-cols-3 gap-4 justify-center items-center">
+  {isSearchOpen && (
+    <div className="absolute top-full left-0 right-0 bg-white shadow-lg z-10">
+      <div className="grid grid-cols-1 gap-1 justify-center items-center">
         {isLoading
           ? Array.from({ length: 3 }).map((_, index) => (
               <div key={index}>
@@ -218,6 +240,10 @@ const Header = () => {
               </div>
             ))}
       </div>
+    </div>
+  )}
+</div>
+
                   </div>
                   <div>
                    {isLoading ? (

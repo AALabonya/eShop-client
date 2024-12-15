@@ -1,22 +1,9 @@
-// import Protectedroute from "@/provider/Protectedroute";
-// import UpdateProductView from "@/views/UpdateProductView";
 
-// const page = () => {
-//   return (
-//     <Protectedroute role={"VENDOR"}>
-//       <UpdateProductView />
-//     </Protectedroute>
-//   );
-// };
-
-// export default page;
+import UpdateProductView from "@/views/UpdateProductView";
 
 const page = () => {
   return (
-    // <Protectedroute role={"VENDOR"}>
-    //   <CreateProductView />
-    // </Protectedroute>
-    <>Vendor</>
+    <UpdateProductView  />
   );
 };
 

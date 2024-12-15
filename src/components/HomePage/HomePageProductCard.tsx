@@ -12,7 +12,6 @@ import { toast } from "sonner";
 import Image from "next/image";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { Eye, ShoppingBasket } from "lucide-react";
-import { FaArrowCircleRight } from "react-icons/fa";
 import { addCompareProducts, removeFromComparison, selectCompareProducts } from "@/redux/features/productCompare/compareSlice";
 import ProductComparison from "../productComparison/ProductComparison";
 import { GrCompare } from "react-icons/gr";

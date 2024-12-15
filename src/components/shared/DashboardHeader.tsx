@@ -19,6 +19,7 @@ import { IoMenu } from "react-icons/io5";
 
 const DashboardHeader: React.FC<ISideBarState> = ({ setIsOpen }) => {
   const { userData } = useUserDetails();
+  
   console.log(userData?.userData?.role,"userData");
   return (
     <div className="w-full h-[70px] flex items-center justify-between px-[20px]  py-[10px] border-b shrink-0">

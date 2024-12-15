@@ -10,7 +10,7 @@ import { selectCurrentToken } from "@/redux/features/auth/authSlice";
 
 const DashboardRoot = () => {
   const router = useRouter();
-  const { userData, isLoading } = useUserDetails();
+  const { userData } = useUserDetails();
   const token = useAppSelector(selectCurrentToken);
   useEffect(() => {
     if (!userData?.userData || !token) {

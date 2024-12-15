@@ -1,6 +1,5 @@
 "use client";
-import DisplayShopProducts from "@/components/shopDetails/DisplayShopProducts";
-import ShopHeader from "@/components/shopDetails/ShopHeader";
+
 import { NextPagination } from "@/components/uiElements/NextPagination";
 import NextSearchBox from "@/components/uiElements/NextSearchBox";
 import { useGetAllProductsQuery } from "@/redux/features/products/productApi";
@@ -16,7 +15,7 @@ const ShopDetailsView = ({ shopId }: { shopId: string }) => {
         <div className="grid gap-6">
           <div className="flex justify-between items-start">
             <div className="flex-1 max-w-3xl">
-              <ShopHeader shopId={shopId} />
+          
             </div>
             <div className="w-72"></div>
           </div>
@@ -24,11 +23,7 @@ const ShopDetailsView = ({ shopId }: { shopId: string }) => {
             onValueChange={(value) => setQuery({ ...query, searchTerm: value })}
           />
           {/* <ProductGrid products={products} /> */}
-          <DisplayShopProducts
-            isLoading={isFetching}
-            products={data?.data || []}
-          />
-
+      
           <NextPagination
             totalDocs={data?.meta.totalDoc || 0}
             limit={12}

@@ -10,37 +10,50 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useCreateCategoryMutation } from "@/redux/features/category/category.api";
+import { useCreateCategoryMutation } from "@/redux/features/category/categoryApi";
+
+
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa6";
 import { toast } from "sonner";
+
 const CreateCategory = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [createCategory, { isLoading }] = useCreateCategoryMutation();
-  const [label, setLabel] = useState("");
+  const [createCategory] = useCreateCategoryMutation()
+  const [formData, setFormData] = useState({
+    category: "",
+    image: "",
+    label: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleCreateCategory = async () => {
-    if (isLoading) return;
-    if (!label) {
-      toast.error("Please add a label");
+    const { category, image, label } = formData;
+
+    if (!category || !image) {
+      toast.error("Please fill in all required fields (category and image)");
       return;
     }
+
+    const loadingToast = toast.loading("Creating category...");
     try {
-      const res = await createCategory({ label });
-      const error = res.error as any;
+      const payload = new FormData();
+      payload.append("category", category);
+      payload.append("image", image);
+      if (label) payload.append("label", label);
 
-      if (error) {
-        toast.error(error?.data?.message || "Something went wrong");
-        setIsOpen(false);
-        return;
-      }
-
-      toast.success("Category created successfully");
+      await createCategory(payload);
+      toast.success("Category created successfully!");
       setIsOpen(false);
     } catch (error) {
-      toast.error("Something went wrong");
-      setIsOpen(false);
+      toast.error("Error creating category!");
+    } finally {
+      toast.dismiss(loadingToast);
     }
   };
 
@@ -59,12 +72,41 @@ const CreateCategory = () => {
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="label" className="text-right">
-              Label
+            <Label htmlFor="category" className="text-right">
+              Category Name
             </Label>
             <Input
-              onChange={(e) => setLabel(e.target.value)}
+              name="category"
+              id="category"
+              placeholder="Enter category name"
+              value={formData.category}
+              onChange={handleInputChange}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="image" className="text-right">
+              Image URL
+            </Label>
+            <Input
+              name="image"
+              id="image"
+              placeholder="Enter image URL"
+              value={formData.image}
+              onChange={handleInputChange}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="label" className="text-right">
+              Label (Optional)
+            </Label>
+            <Input
+              name="label"
               id="label"
+              placeholder="Enter label (optional)"
+              value={formData.label}
+              onChange={handleInputChange}
               className="col-span-3"
             />
           </div>
@@ -73,13 +115,9 @@ const CreateCategory = () => {
           <Button variant="outline" onClick={() => setIsOpen(false)}>
             Cancel
           </Button>
-          <Button
-            onClick={handleCreateCategory}
-            disabled={isLoading}
-            className="center gap-[5px]"
-          >
+          <Button onClick={handleCreateCategory} className="center gap-[5px]">
             Create
-            {isLoading ? <FaSpinner className="animate-spin" /> : null}
+            <FaSpinner className="hidden" /> {/* Keep for future loading state */}
           </Button>
         </DialogFooter>
       </DialogContent>

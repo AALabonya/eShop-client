@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { Pagination } from "@nextui-org/pagination";
 import useUserDetails from "@/hooks/userUser";
 import { IOrder } from "@/types/modal";
@@ -18,8 +17,8 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog";
-import ProductReviewModal from "@/components/MyOrders/AddReview";
 import AddReview from "@/components/MyOrders/AddReview";
+import Image from "next/image";
 
 const MyOrders = () => {
   const { userData } = useUserDetails();
@@ -48,12 +47,12 @@ const MyOrders = () => {
 
   const handleAddReviewClick = (order: IOrder) => {
     setSelectedOrder(order);
-    setIsModalOpen(true); // Open the modal
+    setIsModalOpen(true); 
   };
 
   const closeModal = () => {
-    setIsModalOpen(false); // Close the modal
-    setSelectedOrder(null); // Reset the selected order
+    setIsModalOpen(false);
+    setSelectedOrder(null); 
   };
 
   useEffect(() => {
@@ -96,7 +95,7 @@ const MyOrders = () => {
                             {index + 1 + (currentPage - 1) * dataPerPage}
                           </TableCell>
                           <TableCell>
-                            <img
+                            <Image
                               src={
                                 singleOrder?.orderDetails[0]?.product?.image[0]
                               }

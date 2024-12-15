@@ -1,14 +1,14 @@
 "use client";
-import Loader from "@/components/shared/Loader";
+
 import useUserDetails from "@/hooks/userUser";
 import { selectCurrentToken } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
-import { TRole } from "@/types/modal";
+import { UserRole } from "@/types/modal";
 
 import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
 interface IProps {
-  role: TRole | "*";
+  role: UserRole | "*";
   children: React.ReactNode;
 }
 

@@ -17,7 +17,6 @@ const FlashSale = () => {
   const {
     data: allProductsResponse,
     isLoading,
-    refetch,
   } = useGetAllProductsQuery(queryObj);
 
   const updateDataPerPage = () => {

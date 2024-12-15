@@ -5,17 +5,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { TRole } from "@/types/user";
+import { UserRole } from "@/types/modal";
+
 import React, { useState } from "react";
 
 interface IProps {
-  onRoleChange: (role: TRole | " ") => void;
+  onRoleChange: (role: UserRole | " ") => void;
 }
 
 const UserRoleSelector: React.FC<IProps> = ({ onRoleChange }) => {
-  const [roleFilter, setRoleFilter] = useState<TRole | " ">(" ");
+  const [roleFilter, setRoleFilter] = useState<UserRole | " ">(" ");
 
-  const handlechange = (value: TRole) => {
+  const handlechange = (value: UserRole) => {
     onRoleChange(value);
     setRoleFilter(value);
   };
@@ -23,7 +24,7 @@ const UserRoleSelector: React.FC<IProps> = ({ onRoleChange }) => {
   return (
     <div className="mb-4">
       <Select
-        onValueChange={(value) => handlechange(value as TRole)}
+        onValueChange={(value) => handlechange(value as UserRole)}
         defaultValue=" "
       >
         <SelectTrigger className="w-[180px]">

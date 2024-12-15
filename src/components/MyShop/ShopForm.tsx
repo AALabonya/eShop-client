@@ -10,6 +10,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import * as Yup from "yup";
 import { Textarea } from "../ui/textarea";
+import { useUpdateVendorMutation } from "@/redux/features/users/userApi";
 
 interface IProps {
   initialValues?: {
@@ -33,6 +34,32 @@ const ShopForm: React.FC<IProps> = ({ initialValues }) => {
     url: initialValues?.logo,
     file: undefined,
   });
+  const [updateCustomer] = useUpdateVendorMutation();
+
+  const onSubmit = async (data: any) => {
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(data));
+
+    // Handle image upload if provided
+    if (logo.file) {
+      formData.append("image", logo.file);
+    }
+    console.log("Form Data: ", formData);
+
+    toast.loading("Updating Profile...");
+
+    try {
+      const res = await updateCustomer(formData).unwrap();
+      if (res.success) {
+        toast.success("Profile updated successfully!");
+      }
+    } catch (error: any) {
+      console.error("Error updating profile:", error.message);
+      toast.error("Failed to update profile.");
+    } finally {
+      toast.dismiss();
+    }
+  };
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -40,18 +67,6 @@ const ShopForm: React.FC<IProps> = ({ initialValues }) => {
       const url = URL.createObjectURL(file);
       setLogo({ url, file });
     }
-  };
-
-  const handleSubmit = async (values: { name: string; description: string }) => {
-    console.log("Form submitted with values:", values);
-
-    if (!logo.file && !initialValues?.logo) {
-      toast.error("Please select a logo for your shop");
-      return;
-    }
-
-    // Add your submission logic here
-    toast.success(initialValues ? "Shop updated successfully" : "Shop created successfully");
   };
 
   return (
@@ -65,9 +80,10 @@ const ShopForm: React.FC<IProps> = ({ initialValues }) => {
             initialValues={{
               name: initialValues?.shopName || "",
               description: initialValues?.description || "",
+              logo: "", // You can leave this empty or handle initial value for logo
             }}
             validationSchema={validationSchema}
-            onSubmit={handleSubmit}
+            onSubmit={onSubmit}
           >
             <Form className="space-y-4">
               <div className="space-y-2">

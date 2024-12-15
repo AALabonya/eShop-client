@@ -1,6 +1,7 @@
 
-import { TResponseRedux } from "@/types/modal";
+import { TResponseRedux } from "@/types/global";
 import { baseApi } from "../../api/baseApi";
+import { ICoupon } from "@/types/modal";
 
 const couponApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,7 +12,7 @@ const couponApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      transformResponse: (response: TResponseRedux<any>) => {
+      transformResponse: (response: TResponseRedux<ICoupon[]>) => {
         return response.data;
       },
       providesTags: ["coupon"],

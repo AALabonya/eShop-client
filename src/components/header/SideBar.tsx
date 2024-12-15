@@ -1,10 +1,11 @@
-import { useAppSelector } from "@/redux/hook";
+
 import { LucideShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { Separator } from "../ui/separator";
+import { useAppSelector } from "@/redux/hooks";
 // import { categoryData } from "../const/category";
 // const categoryLinks = [...categoryData].slice(0, 3).map((cat) => {
 //   return {
@@ -32,7 +33,7 @@ interface IProps {
 
 const SideBar: React.FC<IProps> = ({ showSidebar, setShowSidebar }) => {
   const { user } = useAppSelector((state) => state.auth);
-  const { total } = useAppSelector((state) => state.cart);
+
 
   const path = usePathname();
   useEffect(() => {
@@ -119,7 +120,7 @@ const SideBar: React.FC<IProps> = ({ showSidebar, setShowSidebar }) => {
           <LucideShoppingCart />
           <span className="text-[13px] ml-[5px]">Cart</span>
         </span>
-        <span>${total.toFixed(2)}</span>
+    
       </Link>
     </div>
   );

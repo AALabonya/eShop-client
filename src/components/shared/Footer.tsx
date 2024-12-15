@@ -6,6 +6,7 @@ import {IoLocationOutline} from "react-icons/io5";
 import {MdOutlineEmail, MdOutlineLocalPhone} from "react-icons/md";
 import {CgFacebook} from "react-icons/cg";
 import {BsInstagram, BsLinkedin, BsTwitter} from "react-icons/bs";
+import Image from "next/image";
 const Footer = () => {
 
     return (
@@ -13,7 +14,7 @@ const Footer = () => {
             <div
                 className="flex justify-between gap-[30px] flex-col sm:flex-row flex-wrap w-full">
                 <div className="w-full sm:w-[20%] ">
-                    <img src="/favicon.ico.png" alt="logo"
+                    <Image src="/favicon.ico.png" width={30} height={50} alt="logo"
                          className="w-[80px] mb-[20px]"/>
                     <div className="flex flex-col gap-[10px] text-primary">
                                             <span><a

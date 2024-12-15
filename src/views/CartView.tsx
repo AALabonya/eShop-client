@@ -3,6 +3,7 @@
 
 import { removeProduct, updateQuantity } from "@/redux/features/products/productSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { FaCircleXmark } from "react-icons/fa6";
@@ -61,7 +62,9 @@ const CartVews = () => {
                   key={singleProduct.id}
                   className="flex items-center gap-4 p-4 bg-gray-100 rounded-lg shadow-sm"
                 >
-                  <img
+                  <Image
+                  width={50}
+                  height={50}
                     src={singleProduct.image}
                     alt={singleProduct.name}
                     className="w-16 h-16 object-cover rounded-lg border"

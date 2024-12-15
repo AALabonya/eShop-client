@@ -8,10 +8,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useDeleteUserByIdMutation } from "@/redux/features/admin/admin.api";
-import { TUser } from "@/types/user";
+import { TUser } from "@/redux/features/auth/authSlice";
+
 import { useState } from "react";
-import { toast } from "sonner";
+
 
 interface IProps {
   user: TUser;
@@ -20,33 +20,33 @@ interface IProps {
 const DeleteUser: React.FC<IProps> = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [deleteUser, { isLoading }] = useDeleteUserByIdMutation();
 
-  const confirmDelete = async () => {
-    if (isLoading) return;
 
-    if (!user?.id) {
-      toast.error("User not found");
-      return;
-    }
+  // const confirmDelete = async () => {
+  //   if (isLoading) return;
 
-    try {
-      const res = await deleteUser(user?.id);
-      const error = res.error as any;
+  //   if (!user?.id) {
+  //     toast.error("User not found");
+  //     return;
+  //   }
 
-      if (error) {
-        toast.error(error?.data?.message || "Something went wrong");
-        setIsOpen(false);
-        return;
-      }
+  //   try {
+  //     const res = await deleteUser(user?.id);
+  //     const error = res.error as any;
 
-      toast.success("User deleted successfully");
-      setIsOpen(false);
-    } catch (error) {
-      toast.error("Something went wrong");
-      setIsOpen(false);
-    }
-  };
+  //     if (error) {
+  //       toast.error(error?.data?.message || "Something went wrong");
+  //       setIsOpen(false);
+  //       return;
+  //     }
+
+  //     toast.success("User deleted successfully");
+  //     setIsOpen(false);
+  //   } catch (error) {
+  //     toast.error("Something went wrong");
+  //     setIsOpen(false);
+  //   }
+  // };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -57,7 +57,7 @@ const DeleteUser: React.FC<IProps> = ({ user }) => {
         <DialogHeader>
           <DialogTitle>Confirm Deletion</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete {user?.first_name} {user?.last_name}
+            Are you sure you want to delete 
             ? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
@@ -65,7 +65,7 @@ const DeleteUser: React.FC<IProps> = ({ user }) => {
           <Button variant="outline" onClick={() => setIsOpen(false)}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={confirmDelete}>
+          <Button variant="destructive">
             Delete
           </Button>
         </DialogFooter>

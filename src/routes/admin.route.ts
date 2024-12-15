@@ -62,4 +62,5 @@ export const vendorLinks: NavItem[] = [
     Icon: MdOutlineReviews,
     title: "Manage Reviews",
   },
+
 ];

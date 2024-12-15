@@ -1,11 +1,11 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { ArrowLeft, ChevronLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { SetStateAction, useEffect } from "react";
 import { Button } from "../ui/button";
 import { DashboardNav } from "./DashboardNav";
 import { adminLinks, vendorLinks } from "@/routes/admin.route";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { logoutService } from "@/utils/loginService";
 import useUserDetails from "@/hooks/userUser";
 import { toast } from "sonner";
@@ -13,7 +13,6 @@ import { clearCoupon } from "@/redux/features/coupon/couponSlice";
 import { clearCart } from "@/redux/features/products/productSlice";
 import { logout } from "@/redux/features/auth/authSlice";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 type SidebarProps = {
   className?: string;
@@ -29,6 +28,7 @@ export default function Sidebar({
   const { userData } = useUserDetails();
   const dispatch = useAppDispatch();
   const router = useRouter();
+console.log(userData,"userData");
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {

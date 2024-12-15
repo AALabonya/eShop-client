@@ -3,7 +3,8 @@ import CategoryTable from "@/components/ManageCategories/CategoryTable";
 import CreateCategory from "@/components/ManageCategories/CreateCategory";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import NextSearchBox from "@/components/uiElements/NextSearchBox";
-import { useGetAllCategoriesQuery } from "@/redux/features/category/category.api";
+import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
+
 import { useState } from "react";
 const ManageCategoriesView = () => {
   const [query, setQuery] = useState({

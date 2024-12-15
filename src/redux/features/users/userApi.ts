@@ -1,6 +1,7 @@
 
-import { TResponseRedux } from "@/types/modal";
+import { IUser} from "@/types/modal";
 import { baseApi } from "../../api/baseApi";
+import { TResponseRedux } from "@/types/global";
 
 const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,7 +11,7 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         body: vendorInfo,
       }),
-      transformResponse: (response: TResponseRedux<any>) => {
+      transformResponse: (response: TResponseRedux<IUser[]>) => {
         return response.data;
       },
       invalidatesTags: ["users"],
@@ -21,7 +22,7 @@ const userApi = baseApi.injectEndpoints({
         method: "DELETE",
         body: vendorInfo,
       }),
-      transformResponse: (response: TResponseRedux<any>) => {
+      transformResponse: (response: TResponseRedux<IUser[]>) => {
         return response.data;
       },
       invalidatesTags: ["users"],
@@ -36,7 +37,7 @@ const userApi = baseApi.injectEndpoints({
     }),
     updateVendor: builder.mutation({
       query: (vendorInfo) => ({
-        url: "/users/update-customer",
+        url: "/users/update-vendor",
         method: "PATCH",
         body: vendorInfo,
       }),

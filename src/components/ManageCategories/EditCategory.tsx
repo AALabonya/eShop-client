@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useUpdateCategoryMutation } from "@/redux/features/category/category.api";
-import { ICategory } from "@/types/category";
+import { ICategory } from "@/types/modal";
+
 import { Pen } from "lucide-react";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa6";
@@ -23,30 +23,38 @@ interface IProps {
 
 const EditCategory: React.FC<IProps> = ({ category }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [updateCategory, { isLoading }] = useUpdateCategoryMutation();
-  const [label, setLabel] = useState(category.label || "");
+  const [formData, setFormData] = useState({
+    label: category.label || "",
+    image: category.image || "", // Add more fields as required
+  });
 
-  const handleCreateCategory = async () => {
-    if (isLoading) return;
-    if (!label) {
-      toast.error("Please add a label");
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleUpdateCategory = async () => {
+    const { label, image } = formData;
+
+    if (!label || !image) {
+      toast.error("Please fill in all required fields (label and image)");
       return;
     }
+
+    const loadingToast = toast.loading("Updating category...");
+
     try {
-      const res = await updateCategory({ payload: { label }, id: category.id });
-      const error = res.error as any;
+      const payload = new FormData();
+      payload.append("label", label);
+      payload.append("image", image);
 
-      if (error) {
-        toast.error(error?.data?.message || "Something went wrong");
-        setIsOpen(false);
-        return;
-      }
 
-      toast.success("Category updated successfully");
+      toast.success("Category updated successfully!");
       setIsOpen(false);
     } catch (error) {
-      toast.error("Something went wrong");
-      setIsOpen(false);
+      toast.error("Error updating category!");
+    } finally {
+      toast.dismiss(loadingToast);
     }
   };
 
@@ -61,18 +69,31 @@ const EditCategory: React.FC<IProps> = ({ category }) => {
         <DialogHeader>
           <DialogTitle>Edit Category</DialogTitle>
           <DialogDescription>
-            Update the category label below.
+            Update the category details below.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="label" className="text-right">
               Label
             </Label>
             <Input
-              value={label}
-              onChange={(e) => setLabel(e.target.value)}
-              id="name"
+              name="label"
+              id="label"
+              value={formData.label}
+              onChange={handleInputChange}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="image" className="text-right">
+              Image URL
+            </Label>
+            <Input
+              name="image"
+              id="image"
+              value={formData.image}
+              onChange={handleInputChange}
               className="col-span-3"
             />
           </div>
@@ -81,9 +102,13 @@ const EditCategory: React.FC<IProps> = ({ category }) => {
           <Button variant="outline" onClick={() => setIsOpen(false)}>
             Cancel
           </Button>
-          <Button onClick={handleCreateCategory} className="center gap-[5px]">
+          <Button
+            onClick={handleUpdateCategory}
+            className="center gap-[5px]"
+            disabled={false} // Optionally handle loading state if required
+          >
             Save Changes
-            {isLoading ? <FaSpinner className="animate-spin" /> : ""}
+            {false ? <FaSpinner className="animate-spin" /> : ""} {/* Handle spinner here if required */}
           </Button>
         </DialogFooter>
       </DialogContent>

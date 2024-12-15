@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaGoogle, FaFacebookF, FaGithub, FaLinkedinIn } from "react-icons/fa";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,7 +12,6 @@ import { Eye, EyeOff } from "lucide-react";
 import { useAppDispatch } from "@/redux/hooks";
 import { verifyToken } from "@/utils/verifyToken";
 import { setUser, TUser } from "@/redux/features/auth/authSlice";
-import { IUser } from "@/types/modal";
 import { loginUser } from "@/utils/loginService";
 
 
@@ -27,10 +26,6 @@ export default function Login() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const [isActive, setIsActive] = useState(false);
-  const [selectedRole, setSelectedRole] = useState<string>("User");
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [isLogInSuccess, setIsLogInSuccess] = useState(false);
 
   // Initialize React Hook Form
@@ -122,6 +117,15 @@ export default function Login() {
             <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
           )}
         </div>
+        <div className="flex items-center justify-center">
+                <Link href={"/forgot-password"}>
+                  <button type="reset" className="-mr-3 w-max p-2">
+                    <span className="text-sm tracking-wide text-black">
+                      Forgot password ?
+                    </span>
+                  </button>
+                </Link>
+              </div>
         <button
           type="submit"
           className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-md text-lg font-semibold transition"

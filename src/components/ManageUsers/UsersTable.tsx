@@ -1,15 +1,11 @@
 import {
   Table,
-  TableBody,
-  TableCell,
+
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 
-import NoTableDataFound from "../uiElements/NoTableDataFound";
-
-import SuspendUser from "./SuspendUser";
 import { TUser } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
 interface IProps {

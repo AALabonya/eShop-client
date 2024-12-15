@@ -9,25 +9,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
-import { useRouter } from "next/router";
-import { usePathname } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { logout } from "@/redux/features/auth/authSlice";
 import { clearCart } from "@/redux/features/products/productSlice";
 import { clearCoupon } from "@/redux/features/coupon/couponSlice";
 import { logoutService } from "@/utils/loginService";
 import { toast } from "sonner";
-
-export function UserDropDown({ user }: { user: any }) {
+interface UserDropDownProps {
+  user: {
+    userData: {
+      role: string;
+      image?: string;
+    };
+  };
+}
+export function UserDropDown({ user }: UserDropDownProps) {
 
     const dispatch = useAppDispatch();
-//  console.log(user?.userData?.role,"got use");
+
  const users= user?.userData
+console.log(users?.role,"dropdown");
 
     const handleLogout = () => {
       dispatch(logout());
@@ -48,7 +51,7 @@ export function UserDropDown({ user }: { user: any }) {
           <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
             <Image
               alt="profile"
-              src={user?.image || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
+              src={users?.image || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
               width={80}
               height={80}
               className="w-full h-full object-cover"

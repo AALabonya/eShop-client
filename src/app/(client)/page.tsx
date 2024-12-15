@@ -1,5 +1,4 @@
 
-import ContactUs from "@/components/Home/ContactUs";
 import FlashProduct from "@/components/Home/FlashSaleProduct";
 
 import Products from "@/components/HomePage/Products";

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -29,7 +29,7 @@ export default function Registration() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState("User");
+  const [role, setRole] = useState("CUSTOMER");
   const [isLogInSuccess, setIsLogInSuccess] = useState(false);
   const {
     register,
@@ -43,66 +43,43 @@ export default function Registration() {
       router.push(target);
     }
   }, [isLogInSuccess, redirect, router]);
-//   const handleSignUp: SubmitHandler<TSignUp> = async (data) => {
-//     toast.loading("Loading...");
-//     const signUpData = {
-//         ...data,
-//         role,
-//         ...(role === "vendor" && {
-//             shopName: data.shopName,
-//             logo: data.logo ? data.logo[0] : null,
-//             description: data.description,
-//         }),
-//     };
-//     console.log("SignUp Data:", signUpData);
 
-//     try {
-//         const res = await registerUser(signUpData);
-//         if (res.success) {
-//             toast.dismiss();
-//             const user = verifyToken(res.token) as TUser;
-//             dispatch(setUser({ user: user, token: res.token }));
-//             toast.success("Account created successfully!", { duration: 3000 });
-//             if (redirect) {
-//                 router.push(redirect);
-//             } else {
-//                 router.push("/");
-//             }
-//         }
-//     } catch (error: any) {
-//         toast.dismiss();
-//         toast.error(error?.message);
-//     }
-// };
-const handleSignUp: SubmitHandler<TSignUp> = async (data) => {
-  // toast.loading("Loading...");
-  const signUpData = {
+  const handleSignUp: SubmitHandler<TSignUp> = async (data) => {
+    console.log(data);
+
+    const signUpData = {
       ...data,
       role,
-      ...(role === "Vendor" && {
-          shopName: data.shopName,
-          logo: data.logo ? data.logo[0] : null,
-          description: data.description,
+      ...(role === "VENDOR" && {
+        shopName: data.shopName,
+        logo: data.logo ? data.logo[0] : null,
+        description: data.description,
       }),
-  };
-  console.log("SignUp Data:", signUpData);
-  try {
-    const res = await registerUser(signUpData);
-    console.log(res);
-    if (res.success) {
-      toast.dismiss();
-      const user = verifyToken(res.token) as TUser;
-      dispatch(setUser({ user: user, token: res.token }));
+    };
 
-      setIsLogInSuccess(true);
-      toast.success("Account created successfully!", { duration: 3000 });
+    try {
+      const res = await registerUser(signUpData);
+
+      if (res.success && typeof res.token === 'string') {
+        toast.dismiss();
+        const user = verifyToken(res.token) as TUser; 
+        dispatch(setUser({ user: user, token: res.token }));
+
+        setIsLogInSuccess(true);
+        toast.success("Account created successfully!", { duration: 3000 });
+      } else {
+        toast.error("Failed to create account. Invalid token.");
+      }
+    } catch (error: unknown) {
+      console.log(error);
+      toast.dismiss();
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     }
-  } catch (error: any) {
-    console.log(error);
-    toast.dismiss();
-    toast.error(error?.message);
-  }
-};
+  };
 
   return (
     <div className="flex justify-center items-center my-6 md:my-20">
@@ -121,28 +98,10 @@ const handleSignUp: SubmitHandler<TSignUp> = async (data) => {
               className="w-full px-4 py-2 bg-gray-100 border rounded"
             />
             {errors.name && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.name.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
             )}
           </div>
-          {/* <div className="mb-4">
-            <label className="block text-gray-600 mb-2" htmlFor="photo">
-              Select Photo *
-            </label>
-            <input
-              type="file"
-              id="photo"
-              accept="image/*"
-              {...register("photo", { required: "Photo is required" })}
-              className="w-full bg-gray-100 border rounded py-2 px-4"
-            />
-            {errors.photo && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.photo.message}
-              </p>
-            )}
-          </div> */}
+
           <div className="mb-4">
             <label className="block text-gray-600 mb-2" htmlFor="email">
               Email Address *
@@ -193,9 +152,7 @@ const handleSignUp: SubmitHandler<TSignUp> = async (data) => {
               )}
             </span>
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.password.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
             )}
           </div>
 
@@ -204,9 +161,9 @@ const handleSignUp: SubmitHandler<TSignUp> = async (data) => {
             <label className="block text-gray-600 mb-2">Are you a Vendor?</label>
             <button
               type="button"
-              onClick={() => setRole("vendor")}
+              onClick={() => setRole("VENDOR")}
               className={`w-full py-2 text-white rounded ${
-                role === "vendor"
+                role === "VENDOR"
                   ? "bg-blue-600"
                   : "bg-gray-600 hover:bg-gray-700"
               }`}
@@ -216,13 +173,10 @@ const handleSignUp: SubmitHandler<TSignUp> = async (data) => {
           </div>
 
           {/* Vendor-specific Fields */}
-          {role === "vendor" && (
+          {role === "VENDOR" && (
             <div className="space-y-4">
               <div>
-                <label
-                  className="block text-gray-600 mb-2"
-                  htmlFor="shopName"
-                >
+                <label className="block text-gray-600 mb-2" htmlFor="shopName">
                   Shop Name *
                 </label>
                 <input
@@ -232,26 +186,24 @@ const handleSignUp: SubmitHandler<TSignUp> = async (data) => {
                   className="w-full px-4 py-2 bg-gray-100 border rounded"
                 />
                 {errors.shopName && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.shopName.message}
-                  </p>
+                  <p className="text-red-500 text-sm mt-1">{errors.shopName.message}</p>
                 )}
               </div>
-              <div className="mb-4">
-            <label className="block text-gray-600 mb-2" htmlFor="logo">
-                Shop Logo *
-            </label>
-            <input
-                type="file"
-                id="logo"
-                accept="image/*"
-                {...register("logo", { required: "Logo is required for vendors" })}
-                className="w-full bg-gray-100 border rounded py-2 px-4"
-            />
-            {errors.logo && (
-                <p className="text-red-500 text-sm mt-1">{errors.logo.message}</p>
-            )}
-        </div>
+              {/* <div className="mb-4">
+                <label className="block text-gray-600 mb-2" htmlFor="logo">
+                  Shop Logo *
+                </label>
+                <input
+                  type="file"
+                  id="logo"
+                  accept="image/*"
+                  {...register("logo", { required: "Logo is required for vendors" })}
+                  className="w-full bg-gray-100 border rounded py-2 px-4"
+                />
+                {errors.logo && (
+                  <p className="text-red-500 text-sm mt-1">{errors.logo.message}</p>
+                )}
+              </div> */}
               <div>
                 <label
                   className="block text-gray-600 mb-2"
@@ -267,9 +219,7 @@ const handleSignUp: SubmitHandler<TSignUp> = async (data) => {
                   className="w-full px-4 py-2 bg-gray-100 border rounded"
                 />
                 {errors.description && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.description.message}
-                  </p>
+                  <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
                 )}
               </div>
             </div>

@@ -1,9 +1,9 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+
 import { BiMenuAltLeft } from "react-icons/bi";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
+import { usePathname } from "next/navigation";
+import { Select, SelectContent, SelectGroup, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
 import { ICategory } from "@/types/modal";
 
@@ -11,9 +11,8 @@ import { ICategory } from "@/types/modal";
 
 const Navbar = () => {
   const path = usePathname();
-  const [open, setOpen] = useState(false);
-  const { data: allCategories, isLoading } = useGetAllCategoriesQuery(undefined);
-console.log(allCategories,"llll");
+  const { data: allCategories, } = useGetAllCategoriesQuery(undefined);
+// console.log(allCategories,"llll");
 
  
   return (
@@ -77,18 +76,6 @@ console.log(allCategories,"llll");
            Flash Sale
             </button>
           </Link>
-
-          {/* <Link
-            href="/flashSale"
-            className={path === "/flashSale" ? "bg-gray-200 font-bold" : ""}
-          >
-            <button className="text-[18px] font-bold hover:bg-gray-200 flex text-gray-700 items-center gap-2 px-[15px] py-[5px] uppercase rounded-md">
-              <span>
-              
-              </span>{" "}
-         Flash Sale
-            </button>
-          </Link> */}
 
           <Link
             href="/news"

@@ -3,7 +3,6 @@ import React from "react";
 import Image from "next/image";
 import BlogCard from "./BlogCard";
 
-
 const BlogPage = () => {
   const blogPosts = [
     {
@@ -126,7 +125,7 @@ const BlogPage = () => {
       >
         {/* Image */}
         <div className="overflow-hidden rounded-md flex-shrink-0">
-          <img
+          <Image 
             src="https://nest-frontend-v6.vercel.app/assets/imgs/banner/banner-11.png"
             alt="Trending Product"
             className="h-32 w-32 object-cover group-hover:scale-110 duration-300"

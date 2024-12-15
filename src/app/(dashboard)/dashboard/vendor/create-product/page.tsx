@@ -21,8 +21,9 @@ interface IFormInput {
 }
 
 export default function CreateProductForm() {
-    const { data: allCategories, isLoading } = useGetAllCategoriesQuery(undefined);
-    const [createProduct, { isSuccess, isError, error }] = useCreateProductMutation();
+    const { data: allCategories, } = useGetAllCategoriesQuery(undefined);
+    
+    const [createProduct, ] = useCreateProductMutation();
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm<IFormInput>({
         defaultValues: {
@@ -58,7 +59,6 @@ export default function CreateProductForm() {
         const formDataToSubmit = new FormData();
         formDataToSubmit.append("data", JSON.stringify(productData));
 
-        // Check if image is provided and append to formData
         if (image) {
             Array.from(image).forEach((img) => {
                 formDataToSubmit.append("image", img);

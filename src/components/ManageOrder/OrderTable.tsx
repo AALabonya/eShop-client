@@ -6,12 +6,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IOrder } from "@/types/order";
-import { displayOrderStatus } from "@/utils/displayOrderStatus";
-import OrderDetails from "../shared/OrderDetailDialog";
+
 import { Card, CardContent } from "../ui/card";
 import NoTableDataFound from "../uiElements/NoTableDataFound";
-import MoveOrderForShipment from "./MoveOrderForShipment";
+import { IOrder } from "@/types/modal";
+
 
 interface IProps {
   orders: IOrder[];
@@ -35,33 +34,26 @@ const OrderTable: React.FC<IProps> = ({ orders, isLoading }) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders.map((order) => (
-              <TableRow key={order.id}>
+           
+              <TableRow >
                 <TableCell className="font-medium">
-                  #{order.id.slice(0, 8)}...
+               
                 </TableCell>
-                <TableCell>{order.productInfo.name}</TableCell>
+                <TableCell></TableCell>
                 <TableCell>
-                  {order.color}, {order.size}, Qty: {order.quantity}
+          
                 </TableCell>
-                <TableCell>${order.total.toFixed(2)}</TableCell>
-                <TableCell>{displayOrderStatus(order.status)}</TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
                 <TableCell>
-                  {new Date(order.createdAt).toLocaleDateString()}
+            
                 </TableCell>
                 <TableCell>
-                  <OrderDetails
-                    order={order}
-                    footerContent={
-                      <MoveOrderForShipment
-                        orderId={order.id}
-                        status={order.status}
-                      />
-                    }
-                  />
+                 
+        
                 </TableCell>
               </TableRow>
-            ))}
+   
 
             {!isLoading && orders.length === 0 && <NoTableDataFound span={7} />}
           </TableBody>

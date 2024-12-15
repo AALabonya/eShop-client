@@ -55,7 +55,7 @@ const TopHeader = () => {
                   onClick={handleNotAvailable}
                   className="flex hover:bg-gray-200 p-1 hover:shadow-md duration-500 gap-2 mb-1 items-center"
                 >
-                  <img className="w-[20px]" src="/us.png" width={20} height={5} alt="" />{" "}
+                  <Image className="w-[20px]" src="/us.png" width={20} height={5} alt="" />{" "}
                   English{" "}
                 </p>
                 <p

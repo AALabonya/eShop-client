@@ -1,54 +1,13 @@
-// "use server";
 
-// import { baseUrl1 } from "@/redux/api/appSlice";
-// import ProductCard from "../card/ProductCard";
-// import { Separator } from "../ui/separator";
-// import { IProduct } from "@/types/modal";
-// import HomeProductCard from "../card/ProductCard";
-
-// const Products = async () => {
-//   const res = await fetch(`${baseUrl1}/product/get?limit=10`, {
-//     next: {
-//       revalidate: 20 * 60, // 20 minutes
-//     },
-//   });
-
-//   const data = (await res.json()) as { data: IProduct[] };
-
-//   // Filter products with discount === 0
-//   const zeroDiscountProducts = data?.data?.filter(
-//     (product) => product.discount === 0
-//   );
-
-//   // console.log(zeroDiscountProducts, "Zero Discount Products");
-
-//   return (
-//     <div className="w-full mt-[50px]">
-//       <h4 className="text-[25px] font-[700] text-mainTxt">Latest Products</h4>
-//       <Separator className="" />
-//       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-//         {zeroDiscountProducts?.map((product) => (
-//           <HomeProductCard product={product} key={product.id} />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Products;
 "use client";
 
-
-
 import { useEffect, useState } from "react";
-import { Pagination } from "@nextui-org/pagination";
+
 import { useGetAllProductsQuery } from "@/redux/features/products/productApi";
 import Loading from "@/app/loading";
 import { IProduct } from "@/types/modal";
 import HomePageProductCard from "./HomePageProductCard";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addCompareProducts, removeFromComparison, selectCompareProducts } from "@/redux/features/productCompare/compareSlice";
-import { toast } from "sonner";
+import { Pagination } from "@nextui-org/pagination";
 
 
 const AllProducts = () => {
@@ -173,7 +132,7 @@ const AllProducts = () => {
             ))}
       </div>
 
-      {/* <div>
+      <div>
         {allProductsResponse?.data?.length > 0 && (
           <div className="flex justify-center items-center mt-4">
             <Pagination
@@ -185,7 +144,7 @@ const AllProducts = () => {
             />
           </div>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 
-import { TResponseRedux } from "@/types/modal";
+
+import { TResponseRedux } from "@/types/global";
 import { baseApi } from "../../api/baseApi";
 
 const reviewApi = baseApi.injectEndpoints({

@@ -7,6 +7,7 @@ import { useGetSingleCustomerQuery, useGetSingleVendorQuery } from "@/redux/feat
 import { useFollowUserMutation, useUnfollowUserMutation } from "@/redux/features/users/userApi";
 import { IFollow, IProduct } from "@/types/modal";
 import { Pagination } from "@nextui-org/pagination";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaUserFriends } from "react-icons/fa";
@@ -94,7 +95,7 @@ const ShopPage = () => {
 
             <div className="flex justify-center items-center gap-8 p-6 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg shadow-xl">
   <div className="flex justify-center items-center">
-    <img
+    <Image width={200} height={300}
       src={singleVendor?.logo}
       alt={singleVendor?.shopName || "Shop Logo"}
       className="object-cover h-32 w-32 rounded-full border-4 border-white shadow-lg"

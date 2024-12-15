@@ -1,5 +1,5 @@
 "use client";
-import Loader from "@/components/shared/Loader";
+
 import ProfileSidebar from "@/components/shared/ProfileSidebar";
 import { useAppSelector } from "@/redux/hooks";
 
@@ -27,9 +27,7 @@ const Layout = ({
     }
   }, [token, router, user]);
 
-  // if (isLoading) {
-  //   return <Loader className="!h-screen" />;
-  // }
+
 
   return (
     <div className="w-full min-h-screen flex items-start justify-center  py-[50px]">

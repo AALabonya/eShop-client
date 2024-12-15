@@ -1,7 +1,20 @@
 import { Bookmark, Clock, Tag } from "lucide-react";
 import Image from "next/image";
+interface BlogCardProps {
+    item: {
+      image: string;
+      title: string;
+      paragraph: string;
+      readMore: string;
+      date: string;
+      category: string;
+      tags: string;
+      tips?: string;  // Make 'tips' optional
+      food?: string;  // Make 'food' optional
+    };
+  }
 
-const BlogCard = ({ item }:any) => {
+const BlogCard = ({ item }: BlogCardProps) => {
   const { image, title, paragraph, readMore, date, tips, food } = item || {};
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden transition hover:shadow-lg">

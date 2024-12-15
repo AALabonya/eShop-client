@@ -1,18 +1,15 @@
 "use client";
-import ProductTable from "@/components/ManageProducts/ProductTable";
+
 import DashboardHeading from "@/components/uiElements/DashboardHeading";
-import { NextPagination } from "@/components/uiElements/NextPagination";
-import { useGetUsersShopProdcutsQuery } from "@/redux/features/product/product.api";
+
+
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 const ManageProductsView = () => {
   const [page, setPage] = useState(1);
 
-  const { data, isFetching } = useGetUsersShopProdcutsQuery({
-    page,
-    limit: 10,
-  });
+
 
   return (
     <div>
@@ -29,13 +26,8 @@ const ManageProductsView = () => {
           Create Product <Plus className="inline-block ml-2" />
         </Link>
       </div>
-      <ProductTable products={data?.data || []} isLoading={isFetching} />
-      <NextPagination
-        totalDocs={data?.meta.totalDoc || 0}
-        limit={10}
-        onPageChange={setPage}
-        showText
-      />
+     
+      
     </div>
   );
 };

@@ -1,6 +1,7 @@
 
 import { baseApi } from "@/redux/api/baseApi";
-import { IProduct, TResponseRedux } from "@/types/modal";
+import { TResponseRedux } from "@/types/global";
+import { IProduct} from "@/types/modal";
 
 
 const productApi = baseApi.injectEndpoints({
@@ -103,7 +104,7 @@ const productApi = baseApi.injectEndpoints({
           body: productInfo,
         };
       },
-      transformResponse: (response: TResponseRedux<any>) => {
+      transformResponse: (response: TResponseRedux<IProduct[]>) => {
         return response.data;
       },
       invalidatesTags: ["recent-products"],
@@ -121,13 +122,6 @@ const productApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["recent-products"],
     }),
-    duplicateProduct: builder.mutation<{ data: IProduct }, String>({
-      query: (productId) => ({
-        url: `/products/duplicate/${productId}`,
-        method: "POST",
-      }),
-      invalidatesTags: ["products"],
-    }),
     deleteProductById: builder.mutation<{ data: IProduct }, String>({
       query: (id) => ({
         url: `/products/${id}`,
@@ -144,9 +138,35 @@ const productApi = baseApi.injectEndpoints({
           };
       },
       invalidatesTags: ["products"],
-  })
   }),
-});
+
+  updateProduct: builder.mutation<{ data: IProduct },{ payload: Partial<IProduct>; id: string }>({
+  query: ({ payload, id }) => ({
+    url: `/products/${id}`, 
+    method: 'PATCH',
+    body: payload,
+  }),
+  invalidatesTags: ["products"],
+}),
+duplicateProduct: builder.mutation<{ data: IProduct }, String>({
+  query: (productId) => ({
+    url: `/products/duplicate/${productId}`,
+    method: "POST",
+  }),
+  invalidatesTags: ["products"],
+}),
+getProductById: builder.query<{ data: IProduct }, string>({
+  query: (id) => {
+    return {
+      url: `/products/${id}`,
+      method: "GET",
+    };
+  },
+  providesTags: ["products"],
+}),
+}),
+
+})
 
 export const {
   useGetAllProductsQuery,
@@ -156,5 +176,7 @@ export const {
   useDeleteRecentProductMutation,
   useDuplicateProductMutation,
   useDeleteProductByIdMutation,
-  useCreateProductMutation
+  useCreateProductMutation,
+  useUpdateProductMutation,
+  useGetProductByIdQuery
 } = productApi;
