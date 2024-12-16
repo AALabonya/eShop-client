@@ -218,6 +218,7 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 // User interfaces
 export interface IUser {
   id: string;
+  name:string;
   email: string;
   password: string;
   role: UserRole;
@@ -298,6 +299,7 @@ export interface ICategory {
   image: string;
   products: IProduct[];
   createdAt: string;
+  isDeleted:string
 }
 
 // Order interfaces

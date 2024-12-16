@@ -13,16 +13,16 @@ const Navbar = () => {
   const path = usePathname();
   const { data: allCategories, } = useGetAllCategoriesQuery(undefined);
 // console.log(allCategories,"llll");
-
+  const params = new URLSearchParams();
  
   return (
     <div className={path === "/dashboard" ? "hidden" : ""}>
       <div className={`md:flex hidden items-center justify-between`}>
         <div>
           <Select >
-            <SelectTrigger className="w-[220px] px-4 bg-[#80b500] text-white rounded-lg">
+            <SelectTrigger className="w-[220px] px-4 bg-[#80b500] text-white font-bold rounded-lg">
             <BiMenuAltLeft
-              size={30} />
+              size={30}  className="text-white font-bold"/>
               <SelectValue placeholder="ALL CATEGORIES" />
             </SelectTrigger>
             <SelectContent>
@@ -31,7 +31,7 @@ const Navbar = () => {
                {allCategories?.map((category:ICategory) => (
                                             <Link
                                                 key={category?.id}
-                                                href={`/all-products?${category?.label}`}
+                                             href={`/allProducts?${params.toString()}`}
                                                 className="flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
                                             >
                                                 {category?.name}

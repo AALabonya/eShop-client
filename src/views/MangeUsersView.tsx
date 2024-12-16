@@ -5,7 +5,7 @@ import UsersTable from "@/components/ManageUsers/UsersTable";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { NextPagination } from "@/components/uiElements/NextPagination";
 import NextSearchBox from "@/components/uiElements/NextSearchBox";
-import { useGetAllUsersQuery } from "@/redux/features/category/authApi";
+import { useGetAllTypeUsersQuery } from "@/redux/features/users/userApi";
 
 import { useState } from "react";
 
@@ -16,7 +16,30 @@ const MangeUsersView = () => {
     role: "",
     searchTerm: "",
   });
-  const { data, isFetching } =useGetAllUsersQuery(query);
+
+  const { page, limit, searchTerm, role } = query;
+
+  // Fetch data with query params (searchTerm, page, and role)
+  const { data, isFetching } = useGetAllTypeUsersQuery({
+    page,
+    limit,
+    searchTerm,
+    role,
+  });
+console.log(data,"check koto data ase?");
+
+  const handlePageChange = (newPage: number) => {
+    setQuery({ ...query, page: newPage });
+  };
+
+  const handleSearchChange = (newSearchTerm: string) => {
+    setQuery({ ...query, searchTerm: newSearchTerm, page: 1 });
+  };
+
+  const handleRoleChange = (newRole: string) => {
+    const updatedRole = newRole === " " ? "" : newRole;
+    setQuery({ ...query, role: updatedRole });
+  };
 
   return (
     <Card className="w-full mx-auto relative">
@@ -26,30 +49,27 @@ const MangeUsersView = () => {
       <CardContent>
         <NextSearchBox
           className="mb-4"
-          placeholder="eg. first name, last name or email"
-          onValueChange={(searchTerm) => {
-            setQuery({ ...query, searchTerm });
-          }}
+          placeholder="e.g. first name, last name or email"
+          onValueChange={handleSearchChange}
         />
-        <UserRoleSelector
-          onRoleChange={(role) => {
-            const newRole = role === " " ? "" : role;
-            setQuery({ ...query, role: newRole });
-          }}
-        />
-        <UsersTable users={data?.usersData || []} isLoading={isFetching} />
-        <NextPagination
-          totalDocs={data?.meta.totalDoc || 0}
-          limit={10}
-          onPageChange={(page) => setQuery({ ...query, page })}
-        />
+        
+        <UserRoleSelector onRoleChange={handleRoleChange} />
+{/*         
+        <UsersTable users={data || []} isLoading={isFetching} /> */}
+        
+        {/* <NextPagination
+          totalDocs={data}  // Make sure to pass correct totalDocs here
+          limit={limit}
+          currentPage={page}
+          onPageChange={handlePageChange}
+        /> */}
+      
       </CardContent>
-      {isFetching ? (
+      
+      {isFetching && (
         <span className="absolute w-full h-full center text-[18px] top-0 left-0 bg-[#ffffffa6]">
           loading...
         </span>
-      ) : (
-        ""
       )}
     </Card>
   );

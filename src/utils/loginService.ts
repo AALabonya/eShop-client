@@ -38,7 +38,8 @@ console.log(role,"login");
   try {
     if (role === "CUSTOMER") {
       const response = await fetch(
-        "https://eshop-ecommerce-application.vercel.app/api/users/create-customer",
+        // "https://eshop-ecommerce-application.vercel.app/api/users/create-customer",
+          "http://localhost:5000/api/users/create-customer",
         {
           method: "POST",
           headers: {
@@ -63,7 +64,8 @@ console.log(role,"login");
       return data;
     } else {
       const response = await fetch(
-        "https://eshop-ecommerce-application.vercel.app/api/users/create-vendor",
+        // "https://eshop-ecommerce-application.vercel.app/api/users/create-vendor",
+        "http://localhost:5000/api/users/create-vendor",
         {
           method: "POST",
           headers: {
@@ -105,8 +107,9 @@ export const getAccessToken = async () => {
 
 export const forgotPassword = async (userEmail: { email: string }) => {
   console.log(userEmail);
+  // `https://eshop-ecommerce-application.vercel.app/api/auth/forgot-password` 
   try {
-    const response = await fetch(`https://eshop-ecommerce-application.vercel.app/api/auth/forgot-password`, {
+    const response = await fetch(`http://localhost:5000/api/auth/forgot-password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -136,7 +139,8 @@ export const resetPassword = async (
   token: string
 ) => {
   try {
-    const response = await fetch(`https://eshop-ecommerce-application.vercel.app/api/auth/reset-password`, {
+    // const response = await fetch(`https://eshop-ecommerce-application.vercel.app/api/auth/reset-password`, {
+    const response = await fetch(`http://localhost:5000/api/auth/reset-password`, {
       method: "POST",
       headers: {
         Authorization: `${token}`,

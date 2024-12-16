@@ -128,14 +128,14 @@ export default function Login() {
               </div>
         <button
           type="submit"
-          className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-md text-lg font-semibold transition"
+          className="w-full bg-[#80b500] hover:bg-green-700 text-white py-3 rounded-md text-lg font-semibold transition"
         >
           Login
         </button>
       </form>
       <p className="text-center text-gray-600 mt-6">
         Don't have an account?{" "}
-        <Link href="/register" className="text-green-600 font-medium">
+        <Link href="/register" className="text-[#7fad39] font-medium">
           Register
         </Link>
       </p>

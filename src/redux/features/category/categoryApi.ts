@@ -29,7 +29,29 @@ const categoryApi = baseApi.injectEndpoints({
      
       invalidatesTags: ["category"],
     }),
+    updateCategory: builder.mutation({
+      query: ({ categoryId, formData }) => ({
+        url: `/category/${categoryId}`,
+        method: "PATCH",
+        body: formData, 
+      }),
+      transformResponse: (response: TResponseRedux<any>) => response.data,
+      invalidatesTags: ["category"], 
+    }),
+    deleteCategory: builder.mutation({
+      query: (categoryId) => ({
+        url: `/category/${categoryId}`,
+        method: "DELETE",
+      }),
+      transformResponse: (response: TResponseRedux<any>) => response.data,
+      invalidatesTags: ["category"], 
+    }),
   }),
 });
 
-export const { useGetAllCategoriesQuery, useCreateCategoryMutation } = categoryApi;
+export const {
+  useGetAllCategoriesQuery,
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
+} = categoryApi;

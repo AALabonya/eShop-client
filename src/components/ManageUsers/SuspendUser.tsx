@@ -8,48 +8,42 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-import { TUser } from "@/redux/features/auth/authSlice";
-
-import { useState } from "react";
-import { FaSpinner } from "react-icons/fa6";
-import { toast } from "sonner";
+import { IUser } from "@/types/modal";
+import { Edit } from "lucide-react";
 
 interface IProps {
-  user: TUser;
+  user: IUser;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>; // Function to update state
+  isOpen: boolean; // Boolean state to control modal visibility
 }
 
-const SuspendUser: React.FC<IProps> = ({ user }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-
+const SuspendUser: React.FC<IProps> = ({ user, setIsOpen, isOpen }) => {
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}> {/* Using open from Dialog component */}
       <DialogTrigger>
-        <Button >
-        
+        <Button className="bg-[#80b500]" onClick={() => setIsOpen(true)}> {/* Trigger modal open from button */}
+          <Edit />
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            Confirm 
-          </DialogTitle>
+          <DialogTitle>Confirm</DialogTitle>
           <DialogDescription>
-            Are you sure you want to{" "}
-           
+            Are you sure you want to suspend this user: {user.email}?
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setIsOpen(false)}>
+          <Button variant="outline" onClick={() => setIsOpen(false)}> {/* Close on Cancel */}
             Cancel
           </Button>
           <Button
-          
-           
             className="center gap-[6px]"
+            onClick={() => {
+              // Add suspend logic here
+              setIsOpen(false); // Close modal after action
+            }}
           >
-        
+            Suspend
           </Button>
         </DialogFooter>
       </DialogContent>

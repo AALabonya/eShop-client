@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCreateCategoryMutation } from "@/redux/features/category/categoryApi";
 
-
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa6";
@@ -20,16 +20,25 @@ import { toast } from "sonner";
 
 const CreateCategory = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [createCategory] = useCreateCategoryMutation()
-  const [formData, setFormData] = useState({
+  const [createCategory] = useCreateCategoryMutation();
+  const [formData, setFormData] = useState<{
+    category: string;
+    image: File | null; // Allow both File and null types
+    label: string;
+  }>({
     category: "",
-    image: "",
+    image: null,
     label: "",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, files } = e.target;
+
+    if (name === "image" && files && files[0]) {
+      setFormData((prev) => ({ ...prev, image: files[0] })); // Correctly update image as File
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleCreateCategory = async () => {
@@ -43,14 +52,21 @@ const CreateCategory = () => {
     const loadingToast = toast.loading("Creating category...");
     try {
       const payload = new FormData();
-      payload.append("category", category);
-      payload.append("image", image);
-      if (label) payload.append("label", label);
+      payload.append("image", image); // File field
+      payload.append(
+        "data",
+        JSON.stringify({
+          category,
+          label,
+        })
+      );
 
-      await createCategory(payload);
+      await createCategory(payload).unwrap();
       toast.success("Category created successfully!");
       setIsOpen(false);
+      setFormData({ category: "", image: null, label: "" }); // Reset form
     } catch (error) {
+      console.error("Error:", error);
       toast.error("Error creating category!");
     } finally {
       toast.dismiss(loadingToast);
@@ -86,13 +102,12 @@ const CreateCategory = () => {
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="image" className="text-right">
-              Image URL
+              Image
             </Label>
             <Input
               name="image"
               id="image"
-              placeholder="Enter image URL"
-              value={formData.image}
+              type="file"
               onChange={handleInputChange}
               className="col-span-3"
             />
@@ -115,9 +130,12 @@ const CreateCategory = () => {
           <Button variant="outline" onClick={() => setIsOpen(false)}>
             Cancel
           </Button>
-          <Button onClick={handleCreateCategory} className="center gap-[5px]">
+          <Button
+            onClick={handleCreateCategory}
+            className="center bg-[#80b500] gap-[5px]"
+          >
             Create
-            <FaSpinner className="hidden" /> {/* Keep for future loading state */}
+            <FaSpinner className="hidden" />
           </Button>
         </DialogFooter>
       </DialogContent>

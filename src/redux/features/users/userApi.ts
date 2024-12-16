@@ -43,6 +43,21 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["users"],
     }),
+    getAllTypeUsers: builder.query({
+      query: () => {
+          return {
+              url: `/users`,
+          };
+      },
+      transformResponse: (response: TResponseRedux<IUser[]>) => {
+          return {
+              data: response.data,
+              meta: response.meta,
+          };
+      },
+
+      providesTags: ["users"],
+  }),
   }),
 });
 
@@ -51,4 +66,5 @@ export const {
   useUnfollowUserMutation,
   useUpdateCustomerMutation,
   useUpdateVendorMutation,
+useGetAllTypeUsersQuery
 } = userApi;

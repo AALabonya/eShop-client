@@ -9,44 +9,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { TUser } from "@/redux/features/auth/authSlice";
+import { IUser } from "@/types/modal";
 
 import { useState } from "react";
 
 
 interface IProps {
-  user: TUser;
+  user: IUser;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>; // Function to update state
+  isOpen: boolean; // Boolean state to control modal visibility
 }
 
-const DeleteUser: React.FC<IProps> = ({ user }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const DeleteUser: React.FC<IProps> = ({ user, setIsOpen, isOpen }) => {
 
 
-
-  // const confirmDelete = async () => {
-  //   if (isLoading) return;
-
-  //   if (!user?.id) {
-  //     toast.error("User not found");
-  //     return;
-  //   }
-
-  //   try {
-  //     const res = await deleteUser(user?.id);
-  //     const error = res.error as any;
-
-  //     if (error) {
-  //       toast.error(error?.data?.message || "Something went wrong");
-  //       setIsOpen(false);
-  //       return;
-  //     }
-
-  //     toast.success("User deleted successfully");
-  //     setIsOpen(false);
-  //   } catch (error) {
-  //     toast.error("Something went wrong");
-  //     setIsOpen(false);
-  //   }
-  // };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

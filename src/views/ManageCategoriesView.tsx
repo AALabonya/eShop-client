@@ -27,7 +27,7 @@ const ManageCategoriesView = () => {
           />
           <CreateCategory />
         </div>
-        <CategoryTable categories={data?.data || []} />
+        <CategoryTable categories={data || []} />
       </CardContent>
     </Card>
   );

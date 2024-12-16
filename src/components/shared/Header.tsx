@@ -4,7 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import { Menu, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import { FaArrowRightArrowLeft, FaRegUser } from "react-icons/fa6";
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -245,21 +245,7 @@ const Header = () => {
 </div>
 
                   </div>
-                  <div>
-                   {isLoading ? (
-              <div className="animate-pulse w-10 h-10 rounded-full bg-gray-400" />
-            ) : userData ? (
-              <UserDropDown user={userData} />
-            ) : (
-              <Link href="/login">
-                <div className="hidden md:block">
-                  <button className="relative h-10 w-30 origin-top transform rounded-lg border-2 border-primary text-primary before:absolute before:top-0 before:block before:h-0 before:w-full before:duration-500 hover:text-white hover:before:absolute hover:before:left-0 hover:before:-z-10 hover:before:h-full hover:before:bg-primary uppercase font-bold px-3">
-                    Login
-                  </button>
-                </div>
-              </Link>
-            )}
-                  </div>
+               
                 </div>
 
                 {/* cart section */}
@@ -268,8 +254,25 @@ const Header = () => {
                 <Link href="">
                   <HoverCard>
                     <HoverCardTrigger asChild>
-                      <Button variant="link">
-                    
+                      <div className="flex justify-center items-center gap-6">
+                      <div>
+                   {isLoading ? (
+              <div className="animate-pulse w-10 h-10 rounded-full bg-gray-400" />
+            ) : userData ? (
+              <UserDropDown user={userData} />
+            ) : (
+              <Link href="/login">
+                <div className="hidden md:block">
+               <div className=" flex  justify-center items-center gap-2 border-4 border-[#80b500] rounded-lg px-2 py-1.5">
+               <div>
+               <FaRegUser className="hover:text-red-400 font-semibold duration-300" />
+               </div>
+               <div className="font-bold">  Login</div>
+               </div>
+                </div>
+              </Link>
+            )}
+                  </div>
                 <div  onClick={() => setOpenWishlist(true)}>
                           <div    className="bg-[#fff1ee] w-[45px] relative h-[45px] flex justify-center items-center rounded-full">
                           {/* <Link href={"/"}>     </Link> */}
@@ -294,14 +297,14 @@ const Header = () => {
                           </div>
                         </div>
 
-                      </Button>
+                      </div>
                     </HoverCardTrigger>
-                    <HoverCardContent className="w-80">
+                    {/* <HoverCardContent className="w-80">
                       <div className="space-y-1">
                        
                           : "No Product Here"
                       </div>
-                    </HoverCardContent>
+                    </HoverCardContent> */}
                   </HoverCard>
                 </Link>
               </div>
