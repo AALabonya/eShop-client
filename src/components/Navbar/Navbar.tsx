@@ -31,7 +31,7 @@ const Navbar = () => {
                {allCategories?.map((category:ICategory) => (
                                             <Link
                                                 key={category?.id}
-                                             href={`/allProducts?${params.toString()}`}
+                                             href={`/all-products?${params.toString()}`}
                                                 className="flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
                                             >
                                                 {category?.name}

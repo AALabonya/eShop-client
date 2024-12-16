@@ -30,7 +30,15 @@ const reviewApi = baseApi.injectEndpoints({
       },
       providesTags: ["reviews"],
     }),
+     getAllReviews: builder.query({
+      query: () => ({
+        url: `/reviews`,
+        method: "GET",
+      }),
+      transformResponse: (response: TResponseRedux<any>) => response.data,
+      providesTags: ["reviews"],
+    }),
   }),
 });
 
-export const { useCreateReviewMutation, useGetReviewsByIdQuery } = reviewApi;
+export const { useCreateReviewMutation, useGetReviewsByIdQuery,useGetAllReviewsQuery } = reviewApi;

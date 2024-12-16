@@ -228,6 +228,7 @@ export interface IUser {
   admin?: IAdmin;
   vendor?: IVendor;
   customer?: ICustomer;
+  onDelete?:string
 }
 
 export interface IAdmin {
@@ -242,6 +243,8 @@ export interface IAdmin {
 }
 
 export interface IVendor {
+  status: string;
+  vendor: any;
   id: string;
   name: string;
   email: string;
@@ -304,6 +307,8 @@ export interface ICategory {
 
 // Order interfaces
 export interface IOrder {
+  coupon: string;
+  deliveryAddress: string;
   id: string;
   customerId: string;
   vendorId: string;
@@ -327,6 +332,7 @@ export interface IOrderDetail {
 
 // Review interface
 export interface IReview {
+  vendorId:string;
   id: string;
   productId: string;
   customerId: string;

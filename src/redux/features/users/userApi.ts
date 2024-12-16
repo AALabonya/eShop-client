@@ -58,7 +58,33 @@ const userApi = baseApi.injectEndpoints({
 
       providesTags: ["users"],
   }),
+  deleteUser: builder.mutation({
+    query: (userId) => ({
+      url: `/users/${userId}`, 
+      method: "DELETE",
+      body: { userId }
+    }),
+  
+    invalidatesTags: ["users"],
   }),
+  updateUserStatus: builder.mutation({
+    query: ({ userId, status }: { userId: string; status: string }) => ({
+      url: `/users/${userId}/status`,
+      method: "PATCH",
+      body: { status },
+    }),
+    invalidatesTags: ["users"],
+  }),
+  singleVendorStatusUpdated: builder.mutation({
+    query: ({ vendorId, isDeleted }) => ({
+      url: `/users/update-vendor-status/${vendorId}`,
+      method: "PATCH",
+      body: { isDeleted },  
+    }),
+    invalidatesTags: ["users"],
+  }),
+  }),
+  
 });
 
 export const {
@@ -66,5 +92,8 @@ export const {
   useUnfollowUserMutation,
   useUpdateCustomerMutation,
   useUpdateVendorMutation,
-useGetAllTypeUsersQuery
+useGetAllTypeUsersQuery,
+useDeleteUserMutation,
+useUpdateUserStatusMutation,
+useSingleVendorStatusUpdatedMutation
 } = userApi;

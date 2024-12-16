@@ -27,8 +27,7 @@ const MangeUsersView = () => {
     role,
   });
 
-  console.log(data?.data, "Full API response");
-  console.log(error, "API error"); // Log any API error
+
 
   const handlePageChange = (newPage: number) => {
     setQuery({ ...query, page: newPage });
@@ -67,7 +66,9 @@ const MangeUsersView = () => {
         {isFetching ? (
           <div>Loading...</div>
         ) : (
-          <UsersTable users={data?.data || []} isLoading={isFetching} />
+          <UsersTable users={data?.data || []} isLoading={isFetching} onDelete={function (userId: string): void {
+              throw new Error("Function not implemented.");
+            } } />
         )}
         
         {/* Pagination can be updated similarly */}

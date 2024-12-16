@@ -6,44 +6,62 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { IUser } from "@/types/modal";
+import { useUpdateUserStatusMutation } from "@/redux/features/users/userApi";
+import { IUser, UserStatus } from "@/types/modal";
 import { Edit } from "lucide-react";
+import { useState } from "react";
 
 interface IProps {
-  user: IUser;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>; // Function to update state
-  isOpen: boolean; // Boolean state to control modal visibility
+  user: IUser | null;  // Nullable user prop
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;  // Expecting a boolean to toggle modal
+  isOpen: boolean;  // Boolean state for modal visibility
 }
 
 const SuspendUser: React.FC<IProps> = ({ user, setIsOpen, isOpen }) => {
+  console.log(user?.email, "User in modal");
+
+  const [updateUserStatus, { isLoading, error }] = useUpdateUserStatusMutation();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSuspend = async () => {
+    setErrorMessage(null); // Clear any previous error messages
+    try {
+      if (user) {
+        // Call mutation to update user status to BLOCKED
+        await updateUserStatus({ userId: user.id, status: UserStatus.BLOCKED }).unwrap();
+        setIsOpen(false); // Close the dialog after successful suspension
+      }
+    } catch (err) {
+      console.error("Error suspending user:", err);
+      setErrorMessage("An error occurred while suspending the user. Please try again.");
+    }
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}> {/* Using open from Dialog component */}
-      <DialogTrigger>
-        <Button className="bg-[#80b500]" onClick={() => setIsOpen(true)}> {/* Trigger modal open from button */}
-          <Edit />
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Confirm</DialogTitle>
+          <DialogTitle>Confirm Suspension</DialogTitle>
           <DialogDescription>
-            Are you sure you want to suspend this user: {user.email}?
+            Are you sure you want to suspend this user: {user?.email}?
           </DialogDescription>
         </DialogHeader>
+
+        {errorMessage && (
+          <div className="text-red-500 mb-2">{errorMessage}</div>
+        )}
+
         <DialogFooter>
-          <Button variant="outline" onClick={() => setIsOpen(false)}> {/* Close on Cancel */}
+          <Button variant="outline" onClick={() => setIsOpen(false)}>
             Cancel
           </Button>
           <Button
             className="center gap-[6px]"
-            onClick={() => {
-              // Add suspend logic here
-              setIsOpen(false); // Close modal after action
-            }}
+            onClick={handleSuspend}
+            disabled={isLoading} // Disable the button when loading
           >
-            Suspend
+            {isLoading ? "Suspending..." : "Suspend"}
           </Button>
         </DialogFooter>
       </DialogContent>

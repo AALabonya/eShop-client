@@ -1,11 +1,13 @@
 
 import { NavItem } from "@/types/modal";
+import { BiDollar } from "react-icons/bi";
+
 import { BsFileEarmarkPost } from "react-icons/bs";
-import { CiCreditCard2, CiShop, CiViewList } from "react-icons/ci";
+import { CiShop, CiViewList } from "react-icons/ci";
 import { FaRegRectangleList } from "react-icons/fa6";
 import { GrServices } from "react-icons/gr";
 import { LiaShippingFastSolid } from "react-icons/lia";
-import { MdOutlineReviews } from "react-icons/md";
+import { MdOutlineReviews, MdReviews } from "react-icons/md";
 
 export const adminLinks: NavItem[] = [
   {
@@ -14,9 +16,9 @@ export const adminLinks: NavItem[] = [
     title: "Dashboard",
   },
   {
-    href: "/dashboard/admin/transactions",
-    Icon: CiCreditCard2,
-    title: "transactions",
+    href: "/dashboard/admin/manage-categories",
+    Icon: BsFileEarmarkPost,
+    title: "Manage Categories",
   },
   {
     href: "/dashboard/admin/manage-user",
@@ -29,9 +31,14 @@ export const adminLinks: NavItem[] = [
     title: "Manage Shops",
   },
   {
-    href: "/dashboard/admin/manage-categories",
-    Icon: BsFileEarmarkPost,
-    title: "Manage Categories",
+    href: "/dashboard/admin/all-reviews",
+    Icon: MdReviews,
+    title: "Reviews",
+  },
+  {
+    href: "/dashboard/admin/transactions",
+    Icon: BiDollar,
+    title: "Transactions",
   },
 ];
 
