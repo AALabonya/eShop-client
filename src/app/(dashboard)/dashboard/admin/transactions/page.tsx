@@ -4,29 +4,22 @@ import React, { useState } from "react";
 import { IOrder } from "@/types/modal";
 import { useGetAllOrdersQuery } from "@/redux/features/orders/orderApi";
 export type TOrderFilterRequest = {
-  vendorId?: string; // Optional filter by vendor ID
-  customerId?: string; // Optional filter by customer ID
+  vendorId?: string; 
+  customerId?: string; 
 };
 
 const TransactionHistory = () => {
   const [filters, setFilters] = useState<TOrderFilterRequest>({});
   const [page, setPage] = useState(1);
-  const [limit] = useState(10); // Number of orders per page
+  const [limit] = useState(10);
 
-  // Fetch orders with current filters and pagination
   const { data: orders, isLoading, isError } = useGetAllOrdersQuery({
     page,
     limit,
     ...filters,
   });
 
-  // Handle changes in filters
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({ ...prev, [name]: value }));
-  };
 
-  // Handle pagination
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
@@ -38,26 +31,8 @@ const TransactionHistory = () => {
     <div className="p-4">
       <h1 className="text-xl font-bold mb-4">Transaction History</h1>
 
-      {/* Filters */}
-      <div className="mb-4">
-        <input
-          type="text"
-          name="customerId"
-          placeholder="Filter by Customer ID"
-          onChange={handleFilterChange}
-          className="border px-2 py-1 mr-2"
-        />
-        <input
-          type="text"
-          name="vendorId"
-          placeholder="Filter by Vendor ID"
-          onChange={handleFilterChange}
-          className="border px-2 py-1"
-        />
-      </div>
-
       {/* Transaction Table */}
-      {orders?.length > 0 ? (
+      {orders?.data?.length > 0 ? (
         <table className="w-full border-collapse border border-gray-200">
           <thead>
             <tr>
@@ -70,7 +45,7 @@ const TransactionHistory = () => {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order: IOrder) => (
+            {orders?.data?.map((order: IOrder) => (
               <tr key={order.transactionId}>
                 <td className="border px-4 py-2">{order.transactionId}</td>
                 <td className="border px-4 py-2">{order.vendorId}</td>

@@ -38,6 +38,14 @@ eShop is your one-stop online platform for all essential products. We aim to del
 
 - Leave reviews and ratings for purchased products.
 
+
+### Frontend:
+
+-   **Framework**: React.js or Next.js
+-   **State Management**: Redux
+-   **CSS**: TailwindCSS for styling 
+
+
 ## Technologies
 
 - **Backend:** Node.js, Express.js, TypeScript
