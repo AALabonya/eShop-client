@@ -21,10 +21,7 @@ const ManageCategoriesView = () => {
       </CardHeader>
       <CardContent>
         <div className="w-full flex items-center justify-between gap-[15px] flex-wrap">
-          <NextSearchBox
-            className="mb-4"
-            onValueChange={(value) => setQuery({ ...query, searchTerm: value })}
-          />
+        
           <CreateCategory />
         </div>
         <CategoryTable categories={data || []} />

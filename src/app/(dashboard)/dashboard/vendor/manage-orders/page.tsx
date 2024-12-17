@@ -78,7 +78,7 @@ const OrderList = () => {
                       (singleOrder: IOrder, index: number) => {
                         return (
                           <tr key={index} className="rounded-lg">
-                            <th className="text-white">
+                            <th className="text-black">
                               {index + 1 + (currentPage - 1) * dataPerPage}
                             </th>
                             <td className="flex justify-center items-center">
@@ -91,16 +91,16 @@ const OrderList = () => {
                                 className="w-12 h-12 rounded-xl object-cover"
                               />
                             </td>
-                            <td className="text-white font-semibold">
+                            <td className="text-black font-semibold">
                               {singleOrder?.orderDetails[0]?.product?.name}
                             </td>
-                            <td className="font-semibold text-center text-white">
+                            <td className="font-semibold text-center text-black">
                               {singleOrder?.orderDetails[0]?.quantity}
                             </td>
-                            <td className="font-semibold text-white">
+                            <td className="font-semibold text-black">
                               {singleOrder?.customer?.name}
                             </td>
-                            <td className="font-semibold text-white">
+                            <td className="font-semibold text-black">
                               <span>$</span>
                               {(singleOrder?.totalPrice).toFixed(2)}
                             </td>
