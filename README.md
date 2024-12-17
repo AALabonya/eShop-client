@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# eShop
 
-## Getting Started
+#### Welcome to eShop !
+eShop is your one-stop online platform for all essential products. We aim to deliver high-quality, nutritious items right to your doorstep, saving you time and effort. Enjoy a seamless shopping experience with fast delivery and affordable prices.
 
-First, run the development server:
+## Frontend Live Link: https://eshop-application-zeta.vercel.app/
+## Backend Live Link: https://eshop-ecommerce-application.vercel.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Admin Features
+
+1. **Platform Management:**
+
+- Manage user accounts (vendors and customers), including options to suspend or delete accounts.
+
+- Blacklist vendor shops to stop their operations.
+
+- Dynamically manage product categories (add, edit, or delete categories).
+
+- Manage platform content, including vendor shops and product categories.
+
+### Vendor Features
+
+
+- Create and manage shop profiles, products, and inventory.
+
+- View order history and respond to customer reviews.
+
+
+### Customer Features
+
+- Browse, filter, and compare products from multiple vendors.
+
+- Add items to the cart, purchase products, and leave reviews for purchased items.
+
+- Integrate with payment systems like Aamarpay for secure transactions.
+
+- Access order history to review past purchases.
+
+- Leave reviews and ratings for purchased products.
+
+## Technologies
+
+- **Backend:** Node.js, Express.js, TypeScript
+- **Database:** PostgreSQL with Prisma ORM
+- **Authentication:** JWT-based user authentication
+- **File Storage:** Cloudinary integration for product images
+- **Payment Gateway:** Aamarpay
+
+## :link: How to run the application locally
+
+###  Step 1: Clone the Repository
+
+Clone the repository to your local machine using Git:
+
+```node
+git clone <repository-url>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+###  Step 2: Navigate to the Project Directory
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Go to the cloned repository folder:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```node
+cd <repository-name>
+```
 
-## Learn More
+###  Step 3: Install Dependencies
 
-To learn more about Next.js, take a look at the following resources:
+Install the required packages using npm:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```node
+npm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+###  Step 4: Set up the `.env` File
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Step 5: Start the Server
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Launch the application in development mode:
+
+```node
+npm run dev
+```
+
+Now, you can access the application at http://localhost:3000 (or your specified port).
+
+
