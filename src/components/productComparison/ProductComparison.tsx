@@ -2,32 +2,37 @@ import { clearCompareProducts, selectCompareProducts, removeFromComparison } fro
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Button } from "@nextui-org/button";
 import Image from "next/image";
+import { IoSwapHorizontal } from "react-icons/io5";
 import { MdSwapHorizontalCircle } from "react-icons/md";
+// interface ComparisonModalProps {
+//   openWishlist: boolean;
+//   setOpenWishlist: Dispatch<SetStateAction<boolean>>;
+// }
 
-const ComparisonModal = ({ openWishlist, setOpenWishlist }: any) => {
+const ComparisonModal = ({ openWishlist, setOpenWishlist }:any) => {
   const productsForComparison = useAppSelector(selectCompareProducts);
   const dispatch = useAppDispatch();
 
   return (
     <div
-      className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50"
+      className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50 mt-5 pt-12"
       onClick={() => setOpenWishlist(false)}
     >
       <div
         className="bg-white rounded-lg w-3/4 max-w-3xl p-6 relative"
-        onClick={(e) => e.stopPropagation()} // Prevent clicking inside the modal from closing it
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
           <div className="flex gap-2 items-center text-primary font-bold text-3xl">
-            <MdSwapHorizontalCircle className="text-primary text-3xl" />
+            <IoSwapHorizontal className="text-white rounded-full text-3xl bg-[#80b500] p-1" />
             <span>Compare Products</span>
           </div>
           <Button
             onClick={() => setOpenWishlist(false)}
-            variant="flat"
-            className="text-white bg-primary hover:bg-primary-dark"
+           
+            className="text-white bg-red-600 hover:bg-primary-dark rounded-full w-5 h-5"
           >
-            Close
+           X
           </Button>
         </div>
 
@@ -85,21 +90,6 @@ const ComparisonModal = ({ openWishlist, setOpenWishlist }: any) => {
                     <p className="text-sm text-gray-600">{product.description}</p>
                   </div>
 
-                  {/* Add to Cart and View Details Buttons */}
-                  <div className="flex justify-between mt-4">
-                    <Button
-                      onClick={() => {/* Add to Cart functionality */}}
-                      className="bg-primary text-white w-1/2 hover:bg-primary-dark"
-                    >
-                      Add to Cart
-                    </Button>
-                    <Button
-                      onClick={() => {/* View Product Details functionality */}}
-                      className="bg-gray-300 text-black w-1/2 hover:bg-gray-400"
-                    >
-                      View Details
-                    </Button>
-                  </div>
                 </div>
               ))}
             </div>

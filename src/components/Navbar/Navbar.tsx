@@ -13,8 +13,6 @@ const Navbar = () => {
   const path = usePathname();
   const { data: allCategories, } = useGetAllCategoriesQuery(undefined);
 // console.log(allCategories,"llll");
-  const params = new URLSearchParams();
- 
   return (
     <div className={path === "/dashboard" ? "hidden" : ""}>
       <div className={`md:flex hidden items-center justify-between`}>
@@ -28,16 +26,21 @@ const Navbar = () => {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>CATEGORIES</SelectLabel>
-               {allCategories?.map((category:ICategory) => (
-                                            <Link
-                                                key={category?.id}
-                                             href={`/all-products?${params.toString()}`}
-                                                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
-                                            >
-                                                {category?.name}
-                                            </Link>
-                                        ))
-                                      }
+                {allCategories?.map((category: ICategory) => {
+                  // Create params for each category
+                  const params = new URLSearchParams();
+                  params.set("product", category.name);
+
+                  return (
+                    <Link
+                      key={category?.id}
+                      href={`/all-products?category=${category.name}`}
+                      className="flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
+                    >
+                      {category?.name}
+                    </Link>
+                  );
+                })}
               </SelectGroup>
             </SelectContent>
           </Select>

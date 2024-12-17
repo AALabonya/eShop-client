@@ -47,6 +47,7 @@ const AddReview = ({ onClose, singleOrder }: ReviewModalProps) => {
       comment: data.feedback,
       rating: data.rating,
       productId: singleOrder?.orderDetails[0]?.productId,
+      vendorId:singleOrder?.vendorId
     };
 
     console.log(reviewData);

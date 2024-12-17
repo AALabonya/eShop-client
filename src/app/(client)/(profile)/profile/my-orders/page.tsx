@@ -95,13 +95,17 @@ const MyOrders = () => {
                             {index + 1 + (currentPage - 1) * dataPerPage}
                           </TableCell>
                           <TableCell>
-                            <Image
+                           <div>
+                           <Image
+                            width={200}
+                            height={200}
                               src={
                                 singleOrder?.orderDetails[0]?.product?.image[0]
                               }
                               alt="product"
                               className="w-12 h-12 rounded-xl object-cover"
                             />
+                           </div>
                           </TableCell>
                           <TableCell>
                             {singleOrder?.orderDetails[0]?.product?.name}
@@ -153,19 +157,51 @@ const MyOrders = () => {
               </Table>
            
 
-            <div className="pt-7">
-              {customerOrders?.data?.length > 0 && (
-                <div className="flex justify-center items-center mt-4">
-                  <Pagination
-                    total={totalPages}
-                    initialPage={1}
-                    page={currentPage}
-                    onChange={handlePageChange}
-                    showControls
-                  />
-                </div>
-              )}
-            </div>
+              <div className="pt-7">
+  {customerOrders?.data?.length > 0 && (
+    <div className="flex justify-center items-center mt-4">
+      <div className="flex items-center space-x-2">
+        {/* Left Arrow Button */}
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`${
+            currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
+          } p-2 bg-gray-300 rounded-full hover:bg-[#80b500] text-white transition-colors duration-200`}
+        >
+          <span className="font-bold text-lg">{"<"}</span>
+        </button>
+
+        {/* Page Numbers */}
+        {Array.from({ length: totalPages }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`${
+              currentPage === index + 1
+                ? "bg-[#80b500] text-white"
+                : "bg-white text-rose-600"
+            } px-4 py-2 rounded-full transition duration-200 hover:bg-[#80b500] hover:text-white`}
+          >
+            {index + 1}
+          </button>
+        ))}
+
+        {/* Right Arrow Button */}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={`${
+            currentPage === totalPages ? "cursor-not-allowed" : "cursor-pointer"
+          } p-2 bg-gray-300 rounded-full hover:bg-[#80b500] text-white transition-colors duration-200`}
+        >
+          <span className="font-bold text-lg">{">"}</span>
+        </button>
+      </div>
+    </div>
+  )}
+</div>
+
           </div>
         )}
       </div>

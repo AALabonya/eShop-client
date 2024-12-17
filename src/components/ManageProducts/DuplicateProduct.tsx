@@ -55,7 +55,7 @@ const DuplicateProduct = ({ productId }: { productId: string }) => {
             Cancel
           </Button>
           <Button
-            className="bg-main"
+            className="bg-[#80b500] text-white"
             onClick={handleDuplicate}
             disabled={isLoading}
           >

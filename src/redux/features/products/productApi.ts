@@ -140,11 +140,11 @@ const productApi = baseApi.injectEndpoints({
       invalidatesTags: ["products"],
   }),
 
-  updateProduct: builder.mutation<{ data: IProduct },{ payload: Partial<IProduct>; id: string }>({
-  query: ({ payload, id }) => ({
+  updateProduct: builder.mutation({
+  query: ({   payload, id }) => ({
     url: `/products/${id}`, 
     method: 'PATCH',
-    body: payload,
+    body:   payload,
   }),
   invalidatesTags: ["products"],
 }),

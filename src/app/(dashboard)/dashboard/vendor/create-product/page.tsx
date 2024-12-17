@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useCreateProductMutation } from "@/redux/features/products/productApi";
 import { ICategory } from "@/types/modal";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface IFormInput {
     name: string;
@@ -18,11 +20,14 @@ interface IFormInput {
     description: string;
     image: FileList | null;
     categoryId: string;
+    flashSale: boolean;
 }
 
 export default function CreateProductForm() {
+
+    const router = useRouter();
     const { data: allCategories, } = useGetAllCategoriesQuery(undefined);
-    
+    const [flashSale, setFlashSale] = useState(false);
     const [createProduct, ] = useCreateProductMutation();
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm<IFormInput>({
@@ -34,6 +39,7 @@ export default function CreateProductForm() {
             description: "",
             image: null,
             categoryId: "",
+            flashSale: false,
         },
     });
 
@@ -54,6 +60,7 @@ export default function CreateProductForm() {
             description,
             image: image ? Array.from(image) : [],
             categoryId,
+            flashSale: flashSale,
         };
 
         const formDataToSubmit = new FormData();
@@ -69,6 +76,7 @@ export default function CreateProductForm() {
         try {
             await createProduct(formDataToSubmit);
             toast.success("Product created successfully!");
+            router.push("/dashboard/vendor/manage-products")
         } catch (error) {
             toast.error("Error creating product!");
         }
@@ -136,8 +144,39 @@ export default function CreateProductForm() {
                         </Select>
                         {errors.categoryId && <p className="text-red-500 text-sm">{errors.categoryId.message}</p>}
                     </div>
+ {/* Flash Sale */}
+<div>
+    <label>Flash Sale</label>
+    <div className="flex gap-4 items-center">
+        <label className="flex items-center gap-2">
+            <input
+                type="radio"
+                {...register("flashSale")}
+                checked={!flashSale}
+                onChange={() => {
+                    setFlashSale(false);
+                    setValue("flashSale", false); // Correctly sets flashSale as a boolean false
+                }}
+            />
+            No
+        </label>
+        <label className="flex items-center gap-2">
+            <input
+                type="radio"
+                {...register("flashSale")}
+                checked={flashSale}
+                onChange={() => {
+                    setFlashSale(true);
+                    setValue("flashSale", true); // Correctly sets flashSale as a boolean true
+                }}
+            />
+            Yes
+        </label>
+    </div>
+</div>
 
-                    {/* Discount */}
+
+         {/* Discount */}
                     <div>
                         <label>Discount (%)</label>
                         <Input

@@ -21,11 +21,11 @@ import Image from "next/image";
 
 const CheckOut = () => {
   const { userData } = useUserDetails();
-  const { handleSubmit, formState, register, reset } = useForm<FieldValues>({
+  const { handleSubmit, formState, register, reset, getValues } = useForm<FieldValues>({
     defaultValues: {
       name: "",
       email: "",
-      address: "",
+      deliveryAddress: "",
       phone: "",
     },
   });
@@ -37,20 +37,26 @@ const CheckOut = () => {
   const [copiedCouponCode, setCopiedCouponCode] = useState<string | null>(null);
   const [isCouponVerified, setIsCouponVerified] = useState(false);
   const [showCoupon, setShowCoupon] = useState(false);
+
   const handlePlaceOrder = async () => {
     if (!togglePayment) {
       return toast.error("Please select delivery method");
     }
+     // Access the deliveryAddress from form values
+     const deliveryAddress = getValues("deliveryAddress");
 
+if (!deliveryAddress) {
+  return toast.error("Please provide a delivery address");
+}
     // toast.loading("Placing order...");
 
     const transactionId = `transactionId-${Date.now()}`;
-console.log(stateProducts,"stateProducts");
 
     const orderInfo = {
       vendorId: stateProducts[0].vendorId,
       transactionId,
       totalPrice: total,
+      deliveryAddress,
       orderDetails: stateProducts?.map((singleProduct) => ({
         productId: singleProduct.id,
         quantity: singleProduct.quantity,
@@ -82,7 +88,7 @@ console.log(stateProducts,"stateProducts");
       reset({
         name: userData.userData.name || "",
         email: userData.userData.email || "",
-        address: userData.userData.address || "Ka 21/2/1 Pragati Shoroni, Dhaka-1229",
+        deliveryAddress: userData.userData.address || "Ka 21/2/1 Pragati Shoroni, Dhaka-1229",
         phone: userData.userData.phone || "01881451666",
       });
     }
@@ -252,18 +258,19 @@ console.log(stateProducts,"stateProducts");
 
                   <div className="sm:col-span-2">
                     <label
-                      htmlFor="address"
+                      htmlFor="deliveryAddress"
                       className="block text-sm font-medium text-black"
                     >
-                      Address
+                      deliveryAddress
                     </label>
                     <div className="mt-1">
                       <input
+                      id="deliveryAddress"
                         type="text"
-                        {...register("address", {
+                        {...register("deliveryAddress", {
                           required: {
                             value: true,
-                            message: "Address is required",
+                            message: " deliveryAddress is required",
                           },
                         })}
                      

@@ -9,7 +9,7 @@ const useUserDetails = () => {
   const token = useAppSelector(selectCurrentToken);
   const [isRefetching, setIsRefetching] = useState(false);
 
-  const { data, isLoading, refetch } = useGetMyProfileQuery(undefined, {
+  const { data, isLoading, refetch, isFetching } = useGetMyProfileQuery(undefined, {
     skip: !token,
   });
 
@@ -24,7 +24,7 @@ const useUserDetails = () => {
 
   const effectiveLoading = isLoading || isRefetching;
 
-  return { userData: data || null, isLoading: effectiveLoading };
+  return { userData: data || null, isLoading: effectiveLoading,isFetching, };
 };
 
 export default useUserDetails;

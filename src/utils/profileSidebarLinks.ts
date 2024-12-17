@@ -11,19 +11,19 @@ export const userProfileLinks = [
     label: "Account setting",
     Icon: RiUserSettingsLine,
   },
-  {
-    href: "/profile/update-password",
-    label: "Security",
-    Icon: RiLockPasswordLine,
-  },
+  // {
+  //   href: "/profile/update-password",
+  //   label: "Security",
+  //   Icon: RiLockPasswordLine,
+  // },
   {
     href: "/profile/my-orders",
     label: "My Orders",
     Icon: RiLockPasswordLine,
   },
   {
-    href: "/profile/followdShop",
-    label: "My Orders",
+    href: "/profile/followed-shop",
+    label: "Favourite Shop",
     Icon: RiLockPasswordLine,
   },
 ];

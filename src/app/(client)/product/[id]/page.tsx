@@ -38,6 +38,7 @@ const ProductDetails = () => {
     skip: !productId,
   });
 
+console.log(data,"dataid page");
 
   const [selectedImage, setSelectedImage] = useState<string | undefined>();
   const [quantity, setQuantity] = useState(0);
