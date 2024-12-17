@@ -46,15 +46,6 @@ const MangeShop = () => {
         <CardTitle>Shop Management</CardTitle>
       </CardHeader>
       <CardContent>
-        {/* Search Box */}
-        <NextSearchBox
-          className="mb-4"
-          placeholder="Search by shop name"
-          onValueChange={(searchTerm) => {
-            setQuery({ ...query, searchTerm });
-          }}
-        />
-
         {/* Display the filtered vendors in a table */}
         <ShopsTable
           shops={vendorData as unknown as IVendor[]}
