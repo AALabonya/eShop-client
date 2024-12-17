@@ -12,19 +12,9 @@ import {
 import useUserDetails from "@/hooks/userUser";
 import { IOrder, IReview } from "@/types/modal";
 import { AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect, useState } from "react";
-
-import AddReview from "@/components/MyOrders/AddReview";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { useGetAllReviewsQuery } from "@/redux/features/review/reviewsApi";
-import Image from "next/image";
+
 
 const Myreviews = () => {
     const { userData } = useUserDetails();
