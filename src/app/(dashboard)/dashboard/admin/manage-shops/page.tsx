@@ -13,13 +13,12 @@ const MangeShop = () => {
     limit: 10,
     isBlackListed: "",
     searchTerm: "",
-    role: "vendor",
+    role: "VENDOR",
   });
 
   const { page, limit, searchTerm, role, isBlackListed } = query;
 
-  
-  const { data, isFetching, error } = useGetAllTypeUsersQuery({
+  const { data, isFetching } = useGetAllTypeUsersQuery({
     page,
     limit,
     searchTerm,
@@ -27,10 +26,19 @@ const MangeShop = () => {
     isBlackListed,
   });
 
-  // Filter vendors from the fetched data
-  const vendorData = data?.data?.filter(user => user.role === "VENDOR");
 
-  console.log(vendorData, "Filtered vendors");
+  const vendorData = data?.data?.filter((user) => user.role === "VENDOR");
+
+
+  const totalVendors = data?.meta?.total || 0; 
+  const totalPages = Math.ceil(totalVendors / limit);
+
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setQuery({ ...query, page: newPage });
+    }
+  };
 
   return (
     <Card className="w-full mx-auto">
@@ -38,6 +46,7 @@ const MangeShop = () => {
         <CardTitle>Shop Management</CardTitle>
       </CardHeader>
       <CardContent>
+        {/* Search Box */}
         <NextSearchBox
           className="mb-4"
           placeholder="Search by shop name"
@@ -46,15 +55,47 @@ const MangeShop = () => {
           }}
         />
 
-      
-
         {/* Display the filtered vendors in a table */}
-        <ShopsTable shops={vendorData as unknown as IVendor[]} isLoading={isFetching} onDelete={function (userId: string): void {
-          throw new Error("Function not implemented.");
-        } } />
+        <ShopsTable
+          shops={vendorData as unknown as IVendor[]}
+          isLoading={isFetching}
+          onDelete={function (userId: string): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
 
+        {/* Pagination Controls */}
+        <div className="flex justify-center items-center space-x-2 mt-4">
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+            className="px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+          >
+            Previous
+          </button>
 
-     
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              className={`px-3 py-1 border rounded ${
+                page === index + 1
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages}
+            className="px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
       </CardContent>
     </Card>
   );
