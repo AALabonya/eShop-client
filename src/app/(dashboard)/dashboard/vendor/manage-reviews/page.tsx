@@ -10,8 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useUserDetails from "@/hooks/userUser";
-import { IOrder } from "@/types/modal";
-import { useEffect, useState } from "react";
+import { IOrder, IReview } from "@/types/modal";
+import { AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect, useState } from "react";
 
 import AddReview from "@/components/MyOrders/AddReview";
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,7 @@ import {
 import { useGetAllReviewsQuery } from "@/redux/features/review/reviewsApi";
 import Image from "next/image";
 
-const MyOrders = () => {
+const Myreviews = () => {
     const { userData } = useUserDetails();
     const [currentPage, setCurrentPage] = useState(1);
     const dataPerPage = 5;
@@ -39,13 +39,15 @@ const MyOrders = () => {
         vendorId: userData?.userData?.id,
     });
 
-    const { data: allReviews, isLoading } = useGetAllReviewsQuery(queryObj, {
+    const { data: allReviews, isLoading } = useGetAllReviewsQuery({
+        page: currentPage,
+        limit: dataPerPage,
+        vendorId: userData?.userData?.id,
+    }, {
         skip: !userData?.userData,
     });
 
-    const totalPages = Math.ceil(
-        (allReviews?.meta?.total || 0) / dataPerPage
-    );
+    const totalPages = Math.ceil((allReviews?.meta?.total || 0) / dataPerPage);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -72,7 +74,7 @@ const MyOrders = () => {
 
     return (
         <div>
-            <h1 className="text-xl font-semibold mb-4">My Orders</h1>
+            <h1 className="text-xl font-semibold mb-4">My Reviews</h1>
 
             <div>
                 {isLoading ? (
@@ -83,8 +85,6 @@ const MyOrders = () => {
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>No.</TableHead>
-                                    <TableHead>Product Image</TableHead>
-                                    <TableHead>Product Name</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Shop Name</TableHead>
                                     <TableHead>Total Price</TableHead>
@@ -92,115 +92,16 @@ const MyOrders = () => {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {allReviews?.data.length > 0 &&
-                                    allReviews?.data?.map(
-                                        (
-                                            singleOrder: IOrder,
-                                            index: number
-                                        ) => {
-                                            return (
-                                                <TableRow key={index}>
-                                                    <TableCell>
-                                                        {index +
-                                                            1 +
-                                                            (currentPage - 1) *
-                                                                dataPerPage}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <div>
-                                                            <Image
-                                                                width={200}
-                                                                height={200}
-                                                                src={
-                                                                    singleOrder
-                                                                        ?.orderDetails[0]
-                                                                        ?.product
-                                                                        ?.image[0]
-                                                                }
-                                                                alt="product"
-                                                                className="w-12 h-12 rounded-xl object-cover"
-                                                            />
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {
-                                                            singleOrder
-                                                                ?.orderDetails[0]
-                                                                ?.product?.name
-                                                        }
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {
-                                                            singleOrder
-                                                                ?.orderDetails[0]
-                                                                ?.quantity
-                                                        }
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {
-                                                            singleOrder?.vendor
-                                                                ?.shopName
-                                                        }
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        $
-                                                        {(singleOrder?.totalPrice).toFixed(
-                                                            2
-                                                        )}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Dialog>
-                                                            <DialogTrigger
-                                                                asChild
-                                                            >
-                                                                <Button
-                                                                    onClick={() =>
-                                                                        handleAddReviewClick(
-                                                                            singleOrder
-                                                                        )
-                                                                    }
-                                                                    className="btn-primary"
-                                                                >
-                                                                    Add Review
-                                                                </Button>
-                                                            </DialogTrigger>
-                                                            {selectedOrder &&
-                                                                isModalOpen && (
-                                                                    <DialogContent>
-                                                                        <DialogHeader>
-                                                                            <DialogTitle>
-                                                                                Add
-                                                                                Product
-                                                                                Review
-                                                                            </DialogTitle>
-                                                                        </DialogHeader>
-                                                                        <AddReview
-                                                                            singleOrder={
-                                                                                selectedOrder
-                                                                            }
-                                                                            onClose={
-                                                                                closeModal
-                                                                            }
-                                                                        />
-                                                                        <DialogFooter>
-                                                                            <Button
-                                                                                variant="secondary"
-                                                                                onClick={
-                                                                                    closeModal
-                                                                                }
-                                                                            >
-                                                                                Close
-                                                                            </Button>
-                                                                        </DialogFooter>
-                                                                    </DialogContent>
-                                                                )}
-                                                        </Dialog>
-                                                    </TableCell>
-                                                </TableRow>
-                                            );
-                                        }
-                                    )}
-                            </TableBody>
+                            {allReviews?.map((review: { id: Key | null | undefined; product: { image: any; name: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; }; rating: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; comment: any; customer: { name: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; }; }, index: number) => (
+                        <TableRow key={review.id}>
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>{review.rating}</TableCell>
+                            <TableCell>{review.comment || "No comment"}</TableCell>
+                            <TableCell>{review.customer?.name}</TableCell>
+                            <Button>Reply Reviews</Button>
+                        </TableRow>
+                    ))}
+                </TableBody>
                         </Table>
 
                         <div className="pt-7">
@@ -209,11 +110,7 @@ const MyOrders = () => {
                                     <div className="flex items-center space-x-2">
                                         {/* Left Arrow Button */}
                                         <button
-                                            onClick={() =>
-                                                handlePageChange(
-                                                    currentPage - 1
-                                                )
-                                            }
+                                            onClick={() => handlePageChange(currentPage - 1)}
                                             disabled={currentPage === 1}
                                             className={`${
                                                 currentPage === 1
@@ -227,46 +124,31 @@ const MyOrders = () => {
                                         </button>
 
                                         {/* Page Numbers */}
-                                        {Array.from({ length: totalPages }).map(
-                                            (_, index) => (
-                                                <button
-                                                    key={index}
-                                                    onClick={() =>
-                                                        handlePageChange(
-                                                            index + 1
-                                                        )
-                                                    }
-                                                    className={`${
-                                                        currentPage ===
-                                                        index + 1
-                                                            ? "bg-[#80b500] text-white"
-                                                            : "bg-white text-rose-600"
-                                                    } px-4 py-2 rounded-full transition duration-200 hover:bg-[#80b500] hover:text-white`}
-                                                >
-                                                    {index + 1}
-                                                </button>
-                                            )
-                                        )}
+                                        {Array.from({ length: totalPages }).map((_, index) => (
+                                            <button
+                                                key={index}
+                                                onClick={() => handlePageChange(index + 1)}
+                                                className={`${
+                                                    currentPage === index + 1
+                                                        ? "bg-[#80b500] text-white"
+                                                        : "bg-white text-rose-600"
+                                                } px-4 py-2 rounded-full transition duration-200 hover:bg-[#80b500] hover:text-white`}
+                                            >
+                                                {index + 1}
+                                            </button>
+                                        ))}
 
                                         {/* Right Arrow Button */}
                                         <button
-                                            onClick={() =>
-                                                handlePageChange(
-                                                    currentPage + 1
-                                                )
-                                            }
-                                            disabled={
-                                                currentPage === totalPages
-                                            }
+                                            onClick={() => handlePageChange(currentPage + 1)}
+                                            disabled={currentPage === totalPages}
                                             className={`${
                                                 currentPage === totalPages
                                                     ? "cursor-not-allowed"
                                                     : "cursor-pointer"
                                             } p-2 bg-gray-300 rounded-full hover:bg-[#80b500] text-white transition-colors duration-200`}
                                         >
-                                            <span className="font-bold text-lg">
-                                                {">"}
-                                            </span>
+                                            <span className="font-bold text-lg">{">"}</span>
                                         </button>
                                     </div>
                                 </div>
@@ -279,4 +161,4 @@ const MyOrders = () => {
     );
 };
 
-export default MyOrders;
+export default Myreviews;
