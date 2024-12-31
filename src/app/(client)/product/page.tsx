@@ -34,6 +34,7 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const ProductDetails = () => {
+  
     const searchParams = useSearchParams();
     const [productId, setProductId] = useState<string | null>(null);
     const cart = useAppSelector((state) => state.products.cart);
@@ -55,7 +56,7 @@ const ProductDetails = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [pendingProduct, setPendingProduct] = useState<any>(null);
     const [category, setCategory] = useState<string | undefined>(undefined);
-    const params = new URLSearchParams();
+    
 
     const [addRecentProduct] = useAddRecentProductMutation();
 
@@ -173,6 +174,11 @@ const ProductDetails = () => {
         ? data?.price - discountAmount
         : data?.price;
 
+        const id= data?.vendor.id 
+        console.log(id,"shop");
+        const params = new URLSearchParams();
+
+        params.set("shop", id)
     return (
         <div className="py-10">
             {isLoading ? (

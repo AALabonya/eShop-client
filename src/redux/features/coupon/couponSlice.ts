@@ -3,7 +3,7 @@ import { RootState } from "../../store";
 
 export type TCoupon = {
   code: string;
-  discountType: "PERCENTAGE" | "FIXED";
+  discountStatus: "PERCENTAGE" | "FIXED";
   discountValue: number;
 };
 

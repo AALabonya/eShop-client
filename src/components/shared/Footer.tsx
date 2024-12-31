@@ -7,6 +7,7 @@ import {MdOutlineEmail, MdOutlineLocalPhone} from "react-icons/md";
 import {CgFacebook} from "react-icons/cg";
 import {BsInstagram, BsLinkedin, BsTwitter} from "react-icons/bs";
 import Image from "next/image";
+import Link from "next/link";
 const Footer = () => {
 
     return (
@@ -38,13 +39,13 @@ const Footer = () => {
                 <div className="">
                     <h3 className="text-[1.2rem] font-semibold text-text mb-2">Services</h3>
                     <div className="flex text-black flex-col gap-[10px]">
-                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">
-                         Products</p>
-                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">
-                           Shop</p>
-                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">News</p>
-                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">Blog
-                          </p>
+                       <Link href={'/all-products'}> <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">
+                       Products</p></Link>
+                       <Link href={'/shop'}> <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">
+                       Shop</p></Link>
+                     <Link href={'/news'}>   <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">News</p></Link>
+                    <Link href={'/blog'}>    <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">Blog
+                    </p></Link>
                       
                     </div>
                 </div>
@@ -53,11 +54,10 @@ const Footer = () => {
                 <div className="">
                     <h3 className="text-[1.2rem] font-semibold text-text mb-2">Company</h3>
                     <div className="flex text-black flex-col gap-[10px]">
-                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">Service</p>
-                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">Features</p>
-                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">Our
-                            Team</p>
-                        <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">About</p>
+                      <Link href={'/contact'}>  <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">Contact</p></Link>
+                    <Link href={''}>    <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">FAQ</p></Link>
+                      <Link href={'/conditions'}>  <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">Terms and Conditions</p></Link>
+                     <Link href={'/about-us'}>   <p className="text-[0.9rem] text-text hover:text-primary cursor-pointer transition-all duration-200">About</p></Link>
                         
                     </div>
                 </div>
@@ -80,10 +80,7 @@ const Footer = () => {
                         </button>
                     </div>
                 </div>
-                </div>
-
-                <div className="w-full">
-               <div className=" flex justify-center">
+                {/* <div className=" flex justify-start mt-5">
                  <div className="flex items-center flex-wrap gap-[10px] text-text">
                     <a className="text-[1.3rem] p-1.5 cursor-pointer rounded-full text-white bg-[#80b500] transition-all duration-300">
                         <CgFacebook/>
@@ -97,7 +94,11 @@ const Footer = () => {
                     <a className="text-[1.2rem] p-1.5 cursor-pointer rounded-full text-white bg-[#80b500] transition-all duration-300">
                         <BsLinkedin/>
                     </a>
-                </div></div>
+                </div></div> */}
+                </div>
+
+                <div className="w-full">
+               
 
 
                 <div

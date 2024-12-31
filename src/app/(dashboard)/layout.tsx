@@ -18,10 +18,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   
   const { user,  token } = useAppSelector((state) => state.auth);
 
-
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
   return (
     <div className="w-full h-dvh flex flex-col items-start justify-start">
       <DashboardHeader isOpen={isOpen} setIsOpen={setIsOpen} />

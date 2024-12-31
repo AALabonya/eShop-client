@@ -100,7 +100,7 @@ router.push("/login");
       <div className="w-full">
         <ArrowLeft
           className={cn(
-            "fixed z-20 top-[18%] cursor-pointer rounded-full border bg-background text-3xl text-foreground md:flex hidden bg-white"
+            "fixed z-20 top-[18%] cursor-pointer rounded-full border bg-background text-3xl text-foreground md:flex hidden bg-[#80b500] text-white"
           )}
           style={{
             transition: "0.3s",

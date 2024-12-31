@@ -6,16 +6,46 @@ import { usePathname } from "next/navigation";
 import { Select, SelectContent, SelectGroup, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
 import { ICategory } from "@/types/modal";
+import { useState } from "react";
+import { MdOpenInFull } from "react-icons/md";
+import NavbarLink from "./NavbarLink";
 
 
 
 const Navbar = () => {
   const path = usePathname();
   const { data: allCategories, } = useGetAllCategoriesQuery(undefined);
-// console.log(allCategories,"llll");
+  const [showPagesMenu, setShowPagesMenu] = useState(false);
+  const Home = [
+    {
+      title: "About Us",
+      path: "/about-us",
+    
+    },
+  ];
+  const Pages = [
+    {
+      title: "Contact",
+      path: "/contact",
+    },
+    {
+      title: "FAQ",
+      path: "/faq",
+    },
+    {
+      title: "Terms and Conditions",
+      path: "/conditions",
+    },
+    {
+      title: "Privacy Policy",
+      path: "/policy",
+    },
+  ];
+  
+  
   return (
     <div className={path === "/dashboard" ? "hidden" : ""}>
-      <div className={`md:flex hidden items-center justify-between`}>
+      <div className={`md:flex hidden items-center justify-between lg:container lg:mx-auto bg-white`}>
         <div>
           <Select >
             <SelectTrigger className="w-[220px] px-4 bg-[#80b500] text-white font-bold rounded-lg">
@@ -46,17 +76,7 @@ const Navbar = () => {
           </Select>
         </div>
         <div className="flex md:flex-wrap items-center gap-2 text-[18px]">
-        <Link
-            href="/"
-            className={path === "/" ? "bg-gray-200 font-bold rounded-lg" : ""}
-          >
-            <button className="text-[18px] font-bold   hover:bg-gray-200 flex text-gray-700 items-center gap-2 px-[15px] py-[5px] uppercase rounded-lg">
-              <span>
-               
-              </span>{" "}
-            HOME
-            </button>
-          </Link>
+        <NavbarLink name={"HOME"} Home={Home} link={"/"} path={path} />
           <Link
             href="/all-products"
             className={path === "/all-products" ? "bg-gray-200 font-bold" : ""}
@@ -79,7 +99,7 @@ const Navbar = () => {
            Flash Sale
             </button>
           </Link>
-
+          <NavbarLink name={"Pages"} Home={Pages} link={"/"} path={path} />
           <Link
             href="/news"
             className={path === "/news" ? "bg-gray-200 font-bold" : ""}
@@ -97,14 +117,8 @@ const Navbar = () => {
               Blog
             </button>
           </Link>
-          <Link
-            href="/contact"
-            className={path === "/contact" ? "bg-gray-200 font-bold" : ""}
-          >
-            <button className="text-[18px] font-bold hover:bg-gray-200 px-[15px] text-gray-700 py-[5px] uppercase rounded-md">
-              Contact
-            </button>
-          </Link>
+   
+          
         </div>
       </div>
     </div>
@@ -112,3 +126,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+// 

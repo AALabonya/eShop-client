@@ -3,10 +3,11 @@ import React from "react";
 
 import Link from "next/link";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "../ui/navigation-menu";
+import Image from "next/image";
 interface Component {
   title: string;
   path: string;
-  description: string;
+  description?: string;
 }
 
 interface NavbarLinkProps {
@@ -38,18 +39,19 @@ const NavbarLink = ({ Home, name, link, path }:NavbarLinkProps) => {
             </Link>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] text-[20px]">
+            <ul className="left-0 grid w-[200px] p-2 md:w-[200px] md:grid-cols-1 lg:w-[200px] text-[20px]">
               {Home?.map((component:any) => (
                 <li key={component.title}>
                   <NavigationMenuLink asChild>
                     <a
                       href={component.path}
-                      className={`block rounded-md p-3 hover:bg-green-100`}
+                      className={`block rounded-md p-2 hover:bg-green-100`}
                     >
-                      <div className={`font-medium text-[20px]`}>{component.title}</div>
+                      <div className={`font-medium text-[14px]`}>{component.title}</div>
                       <p className="text-sm text-muted-foreground">
                         {component.description}
                       </p>
+               
                     </a>
                   </NavigationMenuLink>
                 </li>

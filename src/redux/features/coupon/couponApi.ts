@@ -1,7 +1,6 @@
 
 import { TResponseRedux } from "@/types/global";
 import { baseApi } from "../../api/baseApi";
-import { ICoupon } from "@/types/modal";
 
 const couponApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,12 +11,52 @@ const couponApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      transformResponse: (response: TResponseRedux<ICoupon[]>) => {
+      transformResponse: (response: TResponseRedux<any>) => {
         return response.data;
       },
       providesTags: ["coupon"],
     }),
+    createCoupon: builder.mutation({
+      query: (couponInfo) => {
+        return {
+          url: "/coupons",
+          method: "POST",
+          body: couponInfo,
+        };
+      },
+      invalidatesTags: ["coupon"],
+    }),
+    updateCoupon: builder.mutation({
+      query: ({ id, couponInfo }) => {
+        return {
+          url: `/coupons/${id}`,
+          method: "PATCH",
+          body: couponInfo,
+        };
+      },
+      transformResponse: (response: TResponseRedux<any>) => {
+        return response.data;
+      },
+      invalidatesTags: ["coupon"],
+    }),
+    deleteCoupon: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/coupons/${id}`,
+          method: "DELETE",
+        };
+      },
+      transformResponse: (response: TResponseRedux<any>) => {
+        return response.data;
+      },
+      invalidatesTags: ["coupon"],
+    }),
   }),
 });
 
-export const { useGetAllCouponsQuery } = couponApi;
+export const {
+  useGetAllCouponsQuery,
+  useCreateCouponMutation,
+  useUpdateCouponMutation,
+  useDeleteCouponMutation,
+} = couponApi;

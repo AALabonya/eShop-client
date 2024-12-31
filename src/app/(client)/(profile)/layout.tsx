@@ -28,12 +28,12 @@ const Layout = ({
     }, [token, router, user]);
 
     return (
-        <div className="w-full min-h-screen flex items-start justify-center py-12">
+        <div className="w-full min-h-screen flex items-start justify-center py-12 overflow-hidden">
             {/* Wrapper Container */}
             <div className="flex flex-col md:flex-row w-full gap-5 p-4 md:p-6 rounded-lg shadow-lg bg-white">
                 <ProfileSidebar />
                 {/* Main Content Area */}
-                <main className="bg-white rounded-lg shadow-md p-4">
+                <main className="overflow-hidden">
                     {children}
                 </main>
             </div>

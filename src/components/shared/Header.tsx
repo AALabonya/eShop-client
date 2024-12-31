@@ -64,18 +64,16 @@ const Header = () => {
     const handleClickOutside = (event: MouseEvent) => {
         const searchInput = document.querySelector("#search-input");
 
-        // Check if the click is outside the search input and close search if true
         if (searchInput && !searchInput.contains(event.target as Node)) {
-            setSearchTerm(""); // Clear search term
-            setIsSearchOpen(false); // Close search dropdown
+            setSearchTerm(""); 
+            setIsSearchOpen(false);
         }
     };
 
     useEffect(() => {
-        // Add event listener to detect clicks outside
+
         document.addEventListener("click", handleClickOutside);
 
-        // Clean up the event listener on component unmount
         return () => {
             document.removeEventListener("click", handleClickOutside);
         };
@@ -83,12 +81,12 @@ const Header = () => {
 
     return (
         <div className={path === "/dashboard" ? "hidden" : ""}>
-            <div className="px-2 md:px-0">
-                <div className="border-b-[1px] border-t-[1px] pb-3 md:pb-3  pt-1">
+            <div className="lg:px-2 md:px-0 overflow-hidden">
+                <div className="border-b-[1px]">
                     <div className="lg:container lg:mx-auto">
-                        <div className="flex items-center justify-between">
+                        <div className="flex lg:items-center lg:justify-between gap-16 md:gap-0">
                             <div className="flex items-center">
-                                <div className="flex gap-12 items-center">
+                                <div className="flex lg:gap-12  items-center">
                                     <div className="flex gap-2 items-center cursor-pointer">
                                         <div className="md:hidden lg:hidden flex">
                                             <DropdownMenu>
@@ -265,7 +263,7 @@ const Header = () => {
                                 <Link href="">
                                     <HoverCard>
                                         <HoverCardTrigger asChild>
-                                            <div className="flex justify-center items-center gap-6">
+                                            <div className="flex justify-center items-center gap-4 md:gap-6">
                                                 <div>
                                                     {isLoading ? (
                                                         <div className="animate-pulse w-10 h-10 rounded-full bg-gray-400" />
@@ -330,19 +328,12 @@ const Header = () => {
                                                 </div>
                                             </div>
                                         </HoverCardTrigger>
-                                        {/* <HoverCardContent className="w-80">
-                      <div className="space-y-1">
-                       
-                          : "No Product Here"
-                      </div>
-                    </HoverCardContent> */}
+                                      
                                     </HoverCard>
                                 </Link>
                             </div>
                         </div>
-                        <div className="mt-0 lg:mt-4">
-                            <Navbar />
-                        </div>
+                      
                     </div>
                 </div>
             </div>

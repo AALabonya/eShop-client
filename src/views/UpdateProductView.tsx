@@ -45,7 +45,7 @@ interface UpdateProductProps {
     const onSubmit = async (data: IFormInput) => {
         const { name, price, stockQuantity, discount, description, image, categoryId } = data;
       
-        // Basic validation check for missing values
+      
         if (!name || !price || !stockQuantity || !description || !categoryId || !image) {
           toast.error("All fields are required!");
           return;
@@ -60,7 +60,7 @@ interface UpdateProductProps {
           categoryId,
         };
       
-        // If the image is provided, we need to append it to the FormData
+       
         const formDataToSubmit = new FormData();
         formDataToSubmit.append("data", JSON.stringify(productData));
         
@@ -70,19 +70,19 @@ interface UpdateProductProps {
             });
         }
 
-        // const loadingToast = toast.loading("Updating product...");
+      
         try {
-          // Use the updateProduct mutation to update the product
+      
            await updateProduct({
-         payload: formDataToSubmit,  // Use FormData for the API call
-      id: product?.id || "",      // Ensure you provide the correct product id for update
+         payload: formDataToSubmit,  
+      id: product?.id || "",     
     }).unwrap();
           toast.success("Product updated successfully!");
-        //   router.push("/dashboard/vendor/manage-products");  // Redirect after success
+       
         } catch (error) {
           toast.error("Error updating product!");
         } finally {
-          toast.dismiss();  // Dismiss the loading toast after operation
+          toast.dismiss(); 
         }
       };
       

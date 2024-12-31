@@ -123,13 +123,13 @@ const HomePageProductCard = ({
     console.log("from redux", productsForComparison);
     return (
         <div className="bg-[#F1F1F1 ">
-            <div className="bg-whie  py-2 lg:py-6 shadow-d borer mt-2">
-                <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3 lg:gap-4">
-                    <div className="lg:h-[420px] w-72 bg-white  cursor-pointer group shadow-lg rounded-md border px-3 py-1 lg:py-3">
+            <div className="py-2 lg:py-6 shadow-d borer mt-2">
+                <div className="">
+                    <div className="lg:h-[420px] bg-white  cursor-pointer group shadow-lg rounded-md border p-3">
                         {/* Image Section */}
                         <div className="relative overflow-hidden rounded-lg">
                             <Image
-                                className="mx-auto group-hover: w-[200px] h-[140px] md:h-[170px] lg:h-[320px] md:w-full lg:w-full object-cover rounded-md transition-opacity hover:duration-700 ease-in-out group-hover:scale-110 transition-transform duration-500"
+                                className="mx-auto group-hover: w-full h-[140px] md:h-[170px] lg:h-[300px] md:w-full lg:w-full object-cover rounded-md transition-opacity hover:duration-700 ease-in-out group-hover:scale-110 transition-transform duration-500"
                                 src={singleProduct.image[0]}
                                 alt={singleProduct.name}
                                 width={500}

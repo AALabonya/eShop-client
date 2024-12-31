@@ -30,6 +30,12 @@ const TopHeader = () => {
           </p>
         </div>
         <div className="flex mx-auto md:mx-auto lg:mx-0 gap-2">
+        <div className="text-red-600 flex-1 font-bold">  Admin Email: admin1@example.com 
+        <div className="text-red-600">
+         Password: admin123
+        </div>
+        </div>
+       
           <Link
             href="/register"
             className="flex py-1 gap-1 ml-4 cursor-pointer hover:border-red-500 duration-300 text-[14px] font-semibold items-center border-gray-400 px-2"

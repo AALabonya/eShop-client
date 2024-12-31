@@ -7,6 +7,7 @@ import Loading from "@/app/loading";
 import { IProduct } from "@/types/modal";
 import HomePageProductCard from "./HomePageProductCard";
 import { Pagination } from "@nextui-org/pagination";
+import PageTitleForHome from "../shared/PageTitle";
 
 const HomeProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -65,13 +66,14 @@ const HomeProducts = () => {
   }, [currentPage, dataPerPage, refetch]);
 
   return (
-    <div className="lg:pt-8 pb-5 ">
-      <div className="lg:items-end lg:justify-between flex justify-center">
-        <h2 className="lg:text-4xl text-2xl font-bold tracking-tight text-gray-900 lg:text-start text-center ">
+    <div className="">
+      <div className="justify-between flex  lg:flex-row flex-col items-center justify-center">
+        <h2 className="lg:text-4xl text-3xl font-bold tracking-tight text-gray-900 lg:text-start text-center ">
           Latest Products
         </h2>
-        <div className="flex gap-4 lg:mt-0 lg:block hidden">
-          {/* Left Button */}
+    
+        {/* <div className="flex gap-4 lg:mt-0 lg:block hidden">
+
           <button
             onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
             disabled={currentPage === 1}
@@ -89,7 +91,7 @@ const HomeProducts = () => {
             </svg>
           </button>
 
-          {/* Right Button */}
+   
           <button
             onClick={() => setCurrentPage(currentPage < totalPages ? currentPage + 1 : totalPages)}
             disabled={currentPage === totalPages}
@@ -111,26 +113,10 @@ const HomeProducts = () => {
               />
             </svg>
           </button>
-        </div>
-      </div>
-
-      <div className="py-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-        {isLoading
-          ? Array.from({ length: dataPerPage }).map((_, index) => (
-              <div key={index}>
-                <Loading />
-              </div>
-            ))
-          : allProductsResponse?.data?.map((singleProduct: IProduct) => (
-              <div key={singleProduct.id}>
-                <HomePageProductCard singleProduct={singleProduct} />
-              </div>
-            ))}
-      </div>
-
-      <div>
+        </div> */}
+          <div className="hidden md:block">
         {allProductsResponse?.data?.length > 0 && (
-          <div className="flex justify-center items-center mt-8">
+          <div className="flex justify-end items-center mt-8">
             <div className="flex items-center space-x-2">
               {/* Custom Pagination Buttons */}
               <button
@@ -170,6 +156,64 @@ const HomeProducts = () => {
           </div>
         )}
       </div>
+      </div>
+
+      <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+        {isLoading
+          ? Array.from({ length: dataPerPage }).map((_, index) => (
+              <div key={index}>
+                <Loading />
+              </div>
+            ))
+          : allProductsResponse?.data?.map((singleProduct: IProduct) => (
+              <div key={singleProduct.id}>
+                <HomePageProductCard singleProduct={singleProduct} />
+              </div>
+            ))}
+      </div>
+      <div className="mt-5 md:hidden block">
+        {allProductsResponse?.data?.length > 0 && (
+          <div className="flex justify-end items-center mt-8">
+            <div className="flex items-center space-x-2">
+              {/* Custom Pagination Buttons */}
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`${
+                  currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
+                } p-2 bg-gray-300 rounded-full hover:bg-[#80b500] text-white`}
+              >
+                <span className="font-bold text-lg">{"<"}</span>
+              </button>
+              {/* Page Numbers */}
+              {Array.from({ length: totalPages }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handlePageChange(index + 1)}
+                  className={`${
+                    currentPage === index + 1
+                      ? "bg-[#80b500] text-white"
+                      : "bg-white text-rose-600"
+                  } px-4 py-2 rounded-full transition duration-200 hover:bg-[#80b500] hover:text-white`}
+                >
+                  {index + 1}
+                </button>
+              ))}
+              {/* Right Button */}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`${
+                  currentPage === totalPages ? "cursor-not-allowed" : "cursor-pointer"
+                } p-2 bg-gray-300 rounded-full hover:bg-[#80b500] text-white`}
+              >
+                <span className="font-bold text-lg">{">"}</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    
     </div>
   );
 };

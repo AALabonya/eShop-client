@@ -22,6 +22,7 @@ const DynamicImage = dynamic(() => import("next/image"), { ssr: false });
 const RecentViewProducts = () => {
     const { data: recentViewedProducts, isLoading } =
         useGetRecentViewProductsQuery(undefined);
+console.log(recentViewedProducts,"check recent");
 
     const [deleteRecentProduct] = useDeleteRecentProductMutation();
     const [currentPage, setCurrentPage] = useState(1);
@@ -39,26 +40,42 @@ const RecentViewProducts = () => {
         setCurrentPage(page);
     };
 
-    const handleDeleteProduct = async (id: string) => {
-        await toast.promise(deleteRecentProduct({ productId: id }).unwrap(), {
+    // const handleDeleteProduct = async (id: string) => {
+    //     await toast.promise(deleteRecentProduct({ productId: id }).unwrap(), {
+    //         loading: "Removing...",
+    //         success: "Product removed from recently viewed!",
+    //         error: "Failed to remove product.",
+    //     });
+    // };
+    const handleDeleteProduct = async (id: string | null) => {
+        if (!id) {
+          toast.error("You need to be logged in to remove recently viewed products.");
+          return;
+        }
+      
+        try {
+          await toast.promise(deleteRecentProduct({ productId: id }).unwrap(), {
             loading: "Removing...",
             success: "Product removed from recently viewed!",
-            error: "Failed to remove product.",
-        });
-    };
-
+            error: `Id do not match. You need to be logged in to remove recently viewed products.`,
+          });
+        } catch (error) {
+          console.error("Error removing product:", error);
+          toast.error("An unexpected error occurred.");
+        }
+      };
+      
     return (
-        <div className="container mx-auto p-6">
+        <div className="">
+            <header className="flex flex-col md:flex-row items-center justify-between">
+                        <h2 className="lg:text-4xl text-2xl mb-10 font-bold tracking-tight text-gray-900 lg:text-start text-center ">
+                            Recently Viewed Products
+                        </h2>
+                    </header>
             {isLoading ? (
                 <Loading />
             ) : (
                 <div>
-                    <header className="flex flex-col md:flex-row items-center justify-between">
-                        <h2 className="lg:text-4xl text-2xl font-bold tracking-tight text-gray-900 lg:text-start text-center ">
-                            Recently Viewed Products
-                        </h2>
-                    </header>
-
                     {totalProducts === 0 ? (
                         <div className="flex flex-col items-center lg:mt-10">
                             <Image

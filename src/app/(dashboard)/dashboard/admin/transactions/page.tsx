@@ -74,14 +74,14 @@ const TransactionHistory = () => {
         <button
           onClick={() => handlePageChange(page - 1)}
           disabled={page === 1}
-          className="bg-gray-200 px-4 py-2 disabled:opacity-50"
+          className="bg-[#80b500] px-4 py-2 disabled:opacity-50"
         >
           Previous
         </button>
         <span>Page {page}</span>
         <button
           onClick={() => handlePageChange(page + 1)}
-          className="bg-gray-200 px-4 py-2"
+          className="bg-[#80b500] px-4 py-2 text-white"
         >
           Next
         </button>

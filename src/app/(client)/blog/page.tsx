@@ -126,6 +126,8 @@ const BlogPage = () => {
         {/* Image */}
         <div className="overflow-hidden rounded-md flex-shrink-0">
           <Image 
+          width={300}
+          height={300}
             src="https://nest-frontend-v6.vercel.app/assets/imgs/banner/banner-11.png"
             alt="Trending Product"
             className="h-32 w-32 object-cover group-hover:scale-110 duration-300"
