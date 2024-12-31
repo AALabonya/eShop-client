@@ -22,11 +22,11 @@ const RecentProduct = () => {
   const { data: recentViewedProducts, isLoading } =useGetRecentViewProductsQuery(undefined);
 
   const { data: allCategories} =useGetAllCategoriesQuery(undefined);
-  console.log(allCategories,"aalll");
+  // console.log(allCategories,"aalll");
 
   const [deleteRecentProduct] = useDeleteRecentProductMutation();
   const [currentPage, setCurrentPage] = useState(1);
-
+  const params = new URLSearchParams();
   const dataPerPage = 8;
   const startIndex = (currentPage - 1) * dataPerPage;
   const endIndex = startIndex + dataPerPage;
@@ -37,7 +37,7 @@ const RecentProduct = () => {
   const totalPages = Math.ceil(totalProducts / dataPerPage);
 
 
-  console.log(recentViewedProducts, "ggggggggggggg");
+  // console.log(recentViewedProducts, "ggggggggggggg");
   
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -162,11 +162,15 @@ const RecentProduct = () => {
                           ${product?.product?.price.toFixed(2)}
                         </TableCell>
                         <TableCell className="text-right">
-                          <Link href={`/single-product/${product?.product?.id}`}>
-                            <Button className="hover:bg-black bg-[#7fad39]">
-                              View Items
-                            </Button>
-                          </Link>
+                        {(() => {
+    const params = new URLSearchParams();
+    params.set("product", product?.product?.id);
+    return (
+      <Link href={`/product?${params.toString()}`}>
+        <Button className="hover:bg-black bg-[#7fad39]">View Items</Button>
+      </Link>
+    );
+  })()}
                         </TableCell>
                       </TableRow>
                     )
